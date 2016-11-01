@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_custom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#88000000">
+
+    <LinearLayout
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#cc2e2e2e"
+        android:orientation="vertical"
+        android:layout_margin="50dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/tableHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Table Name"
+                android:textAlignment="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="normal|bold"
+                android:layout_marginBottom="15dp" />
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                android:background="#00FFFFFF"
+                android:elevation="5dp"
+                app:srcCompat="@drawable/ic_close_white_48dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/comp1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:paddingLeft="20dp"
+                android:weightSum="10"
+                android:paddingRight="20dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="4.52"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/guestLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guest:"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/guestVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guest Name"
+                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/timeStamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time:"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/timeStampVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sometime"
+                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/comp2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/roomNoLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Room No:"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/roomNoVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="99"
+                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User:"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/userVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="someone"
+                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/comp3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/kotNoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KOT No:"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/kotNoVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99"
+                    android:textColor="?android:attr/textColorSecondaryInverse"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="700dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/billItems"
+                    android:scrollbars="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="350dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_margin="15dp">
+
+                    <TextView
+                        android:text="KOT total : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalAmountLabel"
+                        android:layout_weight="1"
+                        android:textStyle="normal|bold"
+                        android:gravity="right"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/holo_red_light" />
+
+                    <TextView
+                        android:text="KotTotalVal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/kotTotal"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textStyle="normal|bold"
+                        android:gravity="right"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/comp7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                android:weightSum="9">
+
+                <Button
+                    android:id="@+id/newBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1.5"
+                    android:background="@color/colorPrimary"
+                    android:text="New"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/editBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1.5"
+                    android:background="@color/colorPrimary"
+                    android:text="Edit"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/guestBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:background="@color/colorPrimary"
+                    android:text="Guest Bill"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/tableCloseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:background="@color/colorPrimary"
+                    android:text="Close Table"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
