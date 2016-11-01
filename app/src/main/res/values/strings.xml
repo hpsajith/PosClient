@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">POS System 5.2</string>
+
+    <!--Splash Screen Start-->
+    <string name="license_txt_line1">This Product is Licensed to <b>ITESS</b>.</string>
+    <string name="license_txt_line2">ITES Software (Pvt) Ltd.</string>
+    <string name="license_txt_line3">POS System 5.2</string>
+    <string name="license_txt_line4">POS System Client Application 1.0.0</string>
+    <string name="license_txt_line5">Copyright © 2016 ITES Software (Pvt) Ltd, All rights reserved.</string>
+    <string name="license_txt_line6">Telephone: <i>0094-0115361111, </i> Email: <i>lkabites@sltnet.lk</i></string>
+    <string name="license_txt_line7">Warning!</string>
+    <string name="license_txt_line8">This computer program is protected by copyright law and international treaties.
+            Unauthorized reproduction or distribution of this program, or any portion of it,
+            may result in service civil and criminal penalties and will be prosecuted to the
+            maximum extent possible under the law.</string>
+    <!--Splash Screen End-->
+
+    <string name="title_activity_login">Login</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+</resources>
