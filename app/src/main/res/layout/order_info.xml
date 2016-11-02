@@ -12,9 +12,9 @@
         android:layout_width="700dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#cc2e2e2e"
         android:orientation="vertical"
-        android:layout_margin="50dp">
+        android:layout_margin="50dp"
+        android:background="@color/popupBg">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:text="Table Name"
+                android:text="Table"
                 android:textAlignment="center"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="24sp"
@@ -45,7 +45,8 @@
                 android:layout_weight="0"
                 android:background="#00FFFFFF"
                 android:elevation="5dp"
-                app:srcCompat="@drawable/ic_close_white_48dp" />
+                app:srcCompat="@drawable/ic_close_white_48dp"
+                android:paddingRight="10dp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -67,7 +68,7 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_weight="4.52"
                     android:layout_height="wrap_content">
 
@@ -83,15 +84,16 @@
                         android:id="@+id/guestVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Guest Name"
                         android:textColor="?android:attr/textColorSecondaryInverse"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:text="loading..."
+                        android:layout_marginLeft="10dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="400dp"
                     android:layout_weight="5"
                     android:layout_height="wrap_content">
 
@@ -107,9 +109,10 @@
                         android:id="@+id/timeStampVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="sometime"
                         android:textColor="?android:attr/textColorSecondaryInverse"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:text="loading..."
+                        android:layout_marginLeft="10dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -123,7 +126,7 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_weight="5"
                     android:layout_height="wrap_content">
 
@@ -139,14 +142,15 @@
                         android:id="@+id/roomNoVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="99"
                         android:textColor="?android:attr/textColorSecondaryInverse"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:text="loading..."
+                        android:layout_marginLeft="10dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="400dp"
                     android:layout_weight="5"
                     android:layout_height="wrap_content">
 
@@ -162,9 +166,10 @@
                         android:id="@+id/userVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="someone"
                         android:textColor="?android:attr/textColorSecondaryInverse"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:text="loading..."
+                        android:layout_marginLeft="10dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -175,7 +180,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/kotNoLabel"
@@ -185,13 +191,12 @@
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
-                <TextView
+                <Spinner
                     android:id="@+id/kotNoVal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="99"
-                    android:textColor="?android:attr/textColorSecondaryInverse"
-                    android:textSize="18sp" />
+                    android:gravity="center"
+                    android:spinnerMode="dialog" />
 
             </LinearLayout>
 
@@ -206,8 +211,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/billItems"
                     android:scrollbars="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="350dp" />
+                    android:layout_width="600dp"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -228,7 +233,7 @@
                         android:textColor="@android:color/holo_red_light" />
 
                     <TextView
-                        android:text="KotTotalVal"
+                        android:text="loading..."
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/kotTotal"
@@ -246,8 +251,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="15dp"
-                android:weightSum="9">
+                android:weightSum="9"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp">
 
                 <Button
                     android:id="@+id/newBtn"
@@ -276,7 +284,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="3"
                     android:background="@color/colorPrimary"
-                    android:text="Guest Bill"
+                    android:text="Print Bill"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 
@@ -287,7 +295,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="3"
                     android:background="@color/colorPrimary"
-                    android:text="Close Table"
+                    android:text="Close Bill"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"/>
             </LinearLayout>
