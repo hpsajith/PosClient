@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <!-- To auto-complete the email text field in the activity_login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -18,8 +18,8 @@
 
         <!-- Splash screen -->
         <activity
+            android:name="com.ites.pos.Activities.PosSplash"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:name="com.ites.pos.Activities.pos_splash.PosSplash"
             android:label="@string/app_name"
             android:theme="@style/MaterialTheme">
             <intent-filter>
@@ -31,21 +31,26 @@
 
         <!-- Login Activity -->
         <activity
+            android:name="com.ites.pos.Activities.Login"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:name="com.ites.pos.Activities.login.Login"
             android:label="@string/app_name"
             android:theme="@style/MaterialTheme" />
 
         <!-- Main activity -->
         <activity
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name="com.ites.pos.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/MaterialTheme" />
 
+        <!--Select restaurant and meal period-->
         <activity
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:name="com.ites.pos.Activities.login.LoginSuccess"/>
+            android:name="com.ites.pos.Activities.LoginSuccess"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <!--Create New bill-->
+        <activity
+            android:name="com.ites.pos.Activities.NewBill"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
     </application>
 
 </manifest>
