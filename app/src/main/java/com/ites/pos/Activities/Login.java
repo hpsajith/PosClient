@@ -1,4 +1,4 @@
-package com.ites.pos.Activities.login;
+package com.ites.pos.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
 
-    final String TAG = "Debug: ";
     ArrayList<String> userList = new ArrayList<String>();
 
     // authenticate the user
@@ -64,7 +62,7 @@ public class Login extends AppCompatActivity {
         userList = i.getStringArrayListExtra("userList");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         uname = (Spinner) findViewById(R.id.uname);
         passwd = (EditText) findViewById(R.id.passwd);
@@ -84,12 +82,8 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        Log.d(TAG, "dataAdapter: " + userList.toString());
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userList);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, userList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Log.d(TAG, "dataAdapter: " + dataAdapter.getCount());
 
         uname.setAdapter(dataAdapter);
 
@@ -102,7 +96,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                Log.d(TAG, "Selected item: ");
+                // skip
             }
         });
     }
@@ -114,12 +108,11 @@ public class Login extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        // perform the user login attempt.
+        // perform the user activity_login attempt.
         showProgress(true);
 
         String password = passwd.getText().toString();
 
-        Log.d(TAG, "user: " + username + "|" + "password: " + password);
         userAuth = new Login.UserAuth(username, password);
         userAuth.execute((Void) null);
     }
@@ -170,8 +163,6 @@ public class Login extends AppCompatActivity {
             String urlAuth = null;
             urlAuth = urlAuthUser + "?username=" + username + "&password=" + password;
 
-            Log.d(TAG, urlAuth);
-
             try {
                 // Simulate network access.
                 final RequestQueue rqlgn = Volley.newRequestQueue(getApplicationContext());
@@ -189,7 +180,7 @@ public class Login extends AppCompatActivity {
                                     if (responseArray.getJSONObject(0) == null) {
                                         // make the JSONException throws
                                     } else {
-                                        // valid login re direct to select restaurant
+                                        // valid activity_login re direct to select restaurant
                                         showProgress(false);
                                         Intent i = new Intent(Login.this, LoginSuccess.class);
                                         i.putExtra("username", username);
@@ -197,20 +188,19 @@ public class Login extends AppCompatActivity {
                                         startActivity(i);
                                     }
                                 } catch (JSONException ex) {
-                                    // notify user : Invalid login
-                                    Toast.makeText((Context) getApplicationContext(), "Invalid login! Try again!", Toast.LENGTH_SHORT).show();
+                                    // notify user : Invalid activity_login
+                                    Toast.makeText((Context) getApplicationContext(), "Invalid activity_login! Try again!", Toast.LENGTH_SHORT).show();
                                     showProgress(false);
                                 }
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        VolleyLog.d("Volley Debug", "Error: " + error.getMessage());
                     }
                 });
 
                 rqlgn.add(reqlgn);
-
 
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

@@ -1,10 +1,9 @@
-package com.ites.pos.Activities.login;
+package com.ites.pos.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,9 +37,9 @@ public class LoginSuccess extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_rest);
+        setContentView(R.layout.activity_login_success);
 
-        session = getApplicationContext().getSharedPreferences("session",0);
+        session = getApplicationContext().getSharedPreferences("session", 0);
         editor = session.edit();
 
         sel_rest = (Spinner) findViewById(R.id.select_restaurant);
@@ -57,49 +56,46 @@ public class LoginSuccess extends AppCompatActivity {
         Intent i = getIntent();
         username = i.getStringExtra("username");
 
-        JSONArray responseArray,restaurantList,mealPeriodList;
+        JSONArray responseArray, restaurantList, mealPeriodList;
 
-        try{
+        try {
             responseArray = new JSONArray(i.getStringExtra("validatedResponse"));
             restaurantList = new JSONArray(responseArray.getJSONObject(0).getString("restuarantList").toString());
             mealPeriodList = new JSONArray(responseArray.getJSONObject(0).getString("mealPeriodList").toString());
 
-            int c1=0,c2 = 0;
-            while(c1 < restaurantList.length()){
+            int c1 = 0, c2 = 0;
+            while (c1 < restaurantList.length()) {
                 try {
                     JSONObject obj = restaurantList.getJSONObject(c1);
-                    Log.d("rests", obj.getString("restrauntId"));
 
                     restName.add(obj.getString("rname"));
                     restId.add(obj.getString("restrauntId"));
 
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 c1++;
             }
 
-            while(c2 < mealPeriodList.length()){
+            while (c2 < mealPeriodList.length()) {
                 try {
                     JSONObject obj = mealPeriodList.getJSONObject(c2);
 
                     mealPeriodName.add(obj.getString("mealPeriadName"));
                     mealPeriodId.add(obj.getString("mealPeriodId"));
 
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 c2++;
             }
 
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
 
         ArrayAdapter<String> spinAdapterRestaurant = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, restName);
         spinAdapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Log.d("meal list", mealPeriodName.toString());
 
         ArrayAdapter<String> spinAdapterMeal = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mealPeriodName);
         spinAdapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -139,7 +135,7 @@ public class LoginSuccess extends AppCompatActivity {
         return;
     }
 
-    public void Continue(){
+    public void Continue() {
         editor.putString("username", username);
         editor.putString("restaurantId", selectedRestaurantId);
         editor.putString("restaurantName", selectedRestaurantName);
