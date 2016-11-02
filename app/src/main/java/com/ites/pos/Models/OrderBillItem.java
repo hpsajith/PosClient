@@ -41,8 +41,8 @@ public class OrderBillItem {
         this.userName = userName;
     }
 
-    public OrderBillItem(JSONObject jObj){
-        try{
+    public OrderBillItem(JSONObject jObj) {
+        try {
             this.tableNo = jObj.get("tableNo").toString();
             this.tableName = jObj.get("tableName").toString();
             this.guestNo = jObj.get("posGuestno").toString();
@@ -56,7 +56,7 @@ public class OrderBillItem {
             this.unitPrice = jObj.get("itemPrices").toString();
             this.roomNo = jObj.get("roomNo").toString();
             this.userName = jObj.get("userName").toString();
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
     }
@@ -166,10 +166,10 @@ public class OrderBillItem {
     }
 
     // convert java bean to JSON object
-    public JSONObject toJSONObject(){
+    public JSONObject toJSONObject() {
 
         JSONObject obj = new JSONObject();
-        try{
+        try {
             obj.put("tableNo", tableNo);
             obj.put("tableName", tableName);
             obj.put("guestNo", guestNo);
@@ -183,14 +183,14 @@ public class OrderBillItem {
             obj.put("itemPrices", unitPrice);
             obj.put("roomNo", roomNo);
             obj.put("userName", userName);
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
         return obj;
     }
 
     // convert JSON object to java bean
-    public OrderBillItem jsonToJavaBean(JSONObject obj){
+    public OrderBillItem jsonToJavaBean(JSONObject obj) {
         return new OrderBillItem(obj);
     }
 
