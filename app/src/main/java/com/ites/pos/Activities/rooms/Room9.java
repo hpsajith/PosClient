@@ -27,6 +27,6 @@ public class Room9 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.room9, container, false);
+        return inflater.inflate(R.layout.fragment_room9, container, false);
     }
 }
