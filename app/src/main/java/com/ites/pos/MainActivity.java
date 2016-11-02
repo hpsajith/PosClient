@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.ites.pos.Activities.rooms.Room1;
 import com.ites.pos.Activities.rooms.Room10;
@@ -52,15 +51,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        session = getApplicationContext().getSharedPreferences("session",0);
+        // get session info
+        session = getApplicationContext().getSharedPreferences("session", 0);
         editor = session.edit();
 
-        restID = session.getString("restaurantId","0");
-
-        Log.d("All",session.getAll().toString());
+        restID = session.getString("restaurantId", "0");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(session.getString("restaurantName","Restaurant Name"));
+        toolbar.setTitle(session.getString("restaurantName", "Restaurant Name"));
         toolbar.setNavigationIcon(R.drawable.ic_dehaze_white_36dp);
         setSupportActionBar(toolbar);
 
@@ -73,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private Fragment getFragment(int position, String tableConfigs){
-        switch (position){
+    private Fragment getFragment(int position, String tableConfigs) {
+        switch (position) {
             case 0:
                 Room1 fragR1 = new Room1();
                 Bundle argsR1 = new Bundle();
@@ -131,14 +129,14 @@ public class MainActivity extends AppCompatActivity {
         netCtrl.getAllTableConfigs(restID, new ResponseCallBack() {
             @Override
             public void gotTableConfigs(String responseStr) {
-                try{
+                try {
                     JSONArray response = new JSONArray(responseStr);
 
-                    for(int i=0; i<response.length(); i++){
+                    for (int i = 0; i < response.length(); i++) {
                         JSONObject respObj = new JSONObject(response.getJSONObject(i).toString());
                         configs.add(new TableConfig(respObj));
                     }
-                }catch(JSONException ex){
+                } catch (JSONException ex) {
                     ex.printStackTrace();
                 }
 
@@ -146,11 +144,11 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, List<TableConfig>> configMap = new HashMap<>();
 
 
-                for (TableConfig config:configs) {
-                    if(configMap.containsKey(config.getRoomName())){
+                for (TableConfig config : configs) {
+                    if (configMap.containsKey(config.getRoomName())) {
                         // Room exists in Map, add config to arraylist
                         configMap.get(config.getRoomName()).add(config);
-                    }else{
+                    } else {
                         // Room doesn't exist in Map
                         List<TableConfig> tmp = new ArrayList<>();
                         tmp.add(config);
@@ -160,14 +158,14 @@ public class MainActivity extends AppCompatActivity {
                     roomSet.add(config.getRoomName());
                 }
 
-                int i=0;
+                int i = 0;
                 for (Iterator<String> room = roomSet.iterator(); room.hasNext(); ) {
                     String tableConfigs = null;
                     String roomName = room.next();
 
                     // convert configMap to JSONArray
                     JSONArray configMapJsonArray = new JSONArray();
-                    for(int j=0; j<configMap.get(roomName).size(); j++){
+                    for (int j = 0; j < configMap.get(roomName).size(); j++) {
                         configMapJsonArray.put(configMap.get(roomName).get(j).toJSONObject());
                     }
 
