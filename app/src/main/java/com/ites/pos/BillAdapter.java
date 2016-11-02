@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.ites.pos.Models.OrderBillItem;
 import com.ites.pos.main_activity.R;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +43,8 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         return list.size();
     }
 
-    public static class BillViewHolder extends RecyclerView.ViewHolder{
-        private TextView itemQtyD,itemNameD,itemCost;
+    public static class BillViewHolder extends RecyclerView.ViewHolder {
+        private TextView itemQtyD, itemNameD, itemCost;
 
         public BillViewHolder(View itemView) {
             super(itemView);

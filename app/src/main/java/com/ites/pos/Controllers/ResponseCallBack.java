@@ -6,5 +6,6 @@ package com.ites.pos.Controllers;
 
 public interface ResponseCallBack {
     void gotTableConfigs(String data);
+
     void gotOpenTableDetails(String data);
 }
