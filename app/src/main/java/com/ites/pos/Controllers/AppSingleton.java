@@ -20,25 +20,25 @@ public class AppSingleton {
         reqQueue = getRequestQ();
     }
 
-    public RequestQueue getRequestQ(){
-        if(reqQueue == null){
+    public RequestQueue getRequestQ() {
+        if (reqQueue == null) {
             reqQueue = Volley.newRequestQueue(ctx.getApplicationContext());
         }
         return reqQueue;
     }
 
-    public static synchronized AppSingleton getInstance(Context ctx){
-        if(instance == null){
+    public static synchronized AppSingleton getInstance(Context ctx) {
+        if (instance == null) {
             instance = new AppSingleton(ctx);
         }
         return instance;
     }
 
-    public<T> void addToRequestQueue(Request<T> request){
+    public <T> void addToRequestQueue(Request<T> request) {
         reqQueue.add(request);
     }
 
-    public void clearRequestQueue(){
+    public void clearRequestQueue() {
         reqQueue.cancelAll(this);
     }
 }
