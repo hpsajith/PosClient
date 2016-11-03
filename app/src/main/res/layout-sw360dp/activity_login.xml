@@ -15,27 +15,30 @@
         app:srcCompat="@drawable/flash_bg"
         android:contentDescription="@string/background_image" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_content_layout"
+        android:orientation="vertical"
+        android:gravity="center">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/login_content_layout"
-            android:gravity="center_vertical"
             android:orientation="vertical"
-            android:padding="25dp"
-            android:weightSum="1">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
                 android:text="@string/login"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@android:color/black"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:layout_marginBottom="30dp" />
 
             <ProgressBar
-                style="?android:attr/progressBarStyle"
+                style="@android:style/Widget.DeviceDefault.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -43,41 +46,40 @@
 
             <Spinner
                 android:id="@+id/uname"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="0.07"
                 android:gravity="center"
                 android:background="#aaffffff"
-                android:padding="8dp"
                 android:elevation="5dp"
-                android:paddingLeft="5dp" />
+                android:layout_margin="8dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:layout_width="300dp" />
 
             <EditText
                 android:id="@+id/passwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_weight="0.06"
                 android:background="#aaffffff"
                 android:maxLength="4"
                 android:elevation="5dp"
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="numberPassword"
-                android:padding="8dp"
-                android:paddingLeft="50dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_margin="8dp"
+                android:padding="15dp" />
 
             <Button
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="15dp"
                 android:background="@color/colorPrimary"
                 android:text="@string/login"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_margin="10dp" />
+
         </LinearLayout>
+
+    </LinearLayout>
 </FrameLayout>

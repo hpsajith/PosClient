@@ -42,7 +42,7 @@ import java.util.List;
  */
 
 public class Room1 extends Fragment {
-    private final int BILL_MAX_HEIGHT = 310;
+    private int BILL_MAX_HEIGHT = 250;
     private JSONArray tableConfigs;
     private PopupWindow orderInfo;
     private ImageButton closeBtn;
@@ -58,6 +58,10 @@ public class Room1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(getResources().getConfiguration().smallestScreenWidthDp < 420){
+            BILL_MAX_HEIGHT = 200;
+        }
     }
 
     @Override
@@ -152,7 +156,6 @@ public class Room1 extends Fragment {
 
                             // set KOT No spinner
                             ArrayAdapter<String> kotAdapter = new ArrayAdapter<>(getContext(), R.layout.kot_spinner_item, KOTNums);
-                            kotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             kotNoD.setAdapter(kotAdapter);
 
                             kotNoD.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -273,12 +276,10 @@ public class Room1 extends Fragment {
     }
 
     public class TableAdapter extends BaseAdapter {
-        private Context ctx;
         private LayoutInflater mInflator;
         private TextView tabName;
 
-        public TableAdapter(Context ctx) {
-            this.ctx = ctx;
+        TableAdapter(Context ctx) {
             mInflator = LayoutInflater.from(ctx);
         }
 

@@ -18,12 +18,17 @@
     </style>
 
     <style name="NavigationButtonCustom" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:minWidth">96dp</item>
+        <item name="android:minWidth">56dp</item>
         <item name="android:padding">5dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
 
-    <style name="toolbarTitleTextCustom" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="toolbarTitleTextCustomSW360dp" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="toolbarTitleTextCustomSW800dp" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">26sp</item>
         <item name="android:textStyle">bold</item>
     </style>

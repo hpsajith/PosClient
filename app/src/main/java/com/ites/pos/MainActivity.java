@@ -31,7 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,11 +38,6 @@ import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private SharedPreferences session;
-    private SharedPreferences.Editor editor;
     private String restID;
 
     @Override
@@ -52,22 +46,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get session info
-        session = getApplicationContext().getSharedPreferences("session", 0);
-        editor = session.edit();
+        SharedPreferences session = getApplicationContext().getSharedPreferences("session", 0);
 
         restID = session.getString("restaurantId", "0");
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(session.getString("restaurantName", "Restaurant Name"));
         toolbar.setNavigationIcon(R.drawable.ic_dehaze_white_36dp);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -140,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     ex.printStackTrace();
                 }
 
-                Set<String> roomSet = new TreeSet<String>();
+                Set<String> roomSet = new TreeSet<>();
                 Map<String, List<TableConfig>> configMap = new HashMap<>();
 
 
@@ -158,9 +151,9 @@ public class MainActivity extends AppCompatActivity {
                     roomSet.add(config.getRoomName());
                 }
 
-                int i = 0;
-                for (Iterator<String> room = roomSet.iterator(); room.hasNext(); ) {
-                    String tableConfigs = null;
+
+                /*for (Iterator<String> room = roomSet.iterator(); room.hasNext(); ) {
+                    String tableConfigs;
                     String roomName = room.next();
 
                     // convert configMap to JSONArray
@@ -172,6 +165,23 @@ public class MainActivity extends AppCompatActivity {
                     tableConfigs = configMapJsonArray.toString();
 
                     adapter.addFragment(getFragment(i, tableConfigs), roomName);
+                    i++;
+                }*/
+
+
+                int i = 0;
+                for (String aRoom : roomSet) {
+                    String tableConfigs;
+
+                    // convert configMap to JSONArray
+                    JSONArray configMapJsonArray = new JSONArray();
+                    for (int j = 0; j < configMap.get(aRoom).size(); j++) {
+                        configMapJsonArray.put(configMap.get(aRoom).get(j).toJSONObject());
+                    }
+
+                    tableConfigs = configMapJsonArray.toString();
+
+                    adapter.addFragment(getFragment(i, tableConfigs), aRoom);
                     i++;
                 }
                 viewPagerRef.setAdapter(adapter);
@@ -188,14 +198,13 @@ public class MainActivity extends AppCompatActivity {
     // back navigation button disabled
     @Override
     public void onBackPressed() {
-        return;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -209,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }

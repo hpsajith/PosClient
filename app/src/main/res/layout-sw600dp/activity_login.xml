@@ -50,8 +50,8 @@
                 android:layout_weight="0.07"
                 android:gravity="center"
                 android:background="#aaffffff"
-                android:padding="8dp"
                 android:elevation="5dp"
+                android:padding="8dp"
                 android:paddingLeft="5dp" />
 
             <EditText

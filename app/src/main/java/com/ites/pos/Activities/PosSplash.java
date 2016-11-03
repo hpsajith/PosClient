@@ -29,11 +29,8 @@ public class PosSplash extends AppCompatActivity {
     ArrayList<String> userList = new ArrayList<>();
 
     // get user list
-    final String urlGetUsers = "http://10.1.1.66:8080/UserController/getAllUsers";
-//    final String urlGetUsers = "http://192.168.43.178:8080/UserController/getAllUsers";
-
-    // splash waiting time
-    private static int SPLASH_TIME_OUT = 4000;
+//    final String urlGetUsers = "http://10.1.1.66:8080/UserController/getAllUsers";
+    final String urlGetUsers = "http://192.168.43.178:8080/UserController/getAllUsers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +69,7 @@ public class PosSplash extends AppCompatActivity {
         rq.add(req);
 
         // handler to redirect the splash
+        int SPLASH_TIME_OUT = 4000;
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -87,6 +85,5 @@ public class PosSplash extends AppCompatActivity {
     // back navigation button disabled
     @Override
     public void onBackPressed() {
-        return;
     }
 }

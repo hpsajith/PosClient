@@ -27,8 +27,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     public BillViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bill_item, parent, false);
 
-        BillViewHolder vh = new BillViewHolder(view);
-        return vh;
+        return new BillViewHolder(view);
     }
 
     @Override
@@ -43,10 +42,10 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         return list.size();
     }
 
-    public static class BillViewHolder extends RecyclerView.ViewHolder {
+    static class BillViewHolder extends RecyclerView.ViewHolder {
         private TextView itemQtyD, itemNameD, itemCost;
 
-        public BillViewHolder(View itemView) {
+        BillViewHolder(View itemView) {
             super(itemView);
 
             itemQtyD = (TextView) itemView.findViewById(R.id.itemQty);

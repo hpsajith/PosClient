@@ -1,5 +1,6 @@
 package com.ites.pos.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,22 +30,20 @@ public class LoginSuccess extends AppCompatActivity {
     private ArrayList<String> mealPeriodId = new ArrayList<>();
     private ArrayList<String> restName = new ArrayList<>();
     private ArrayList<String> mealPeriodName = new ArrayList<>();
-    private Spinner sel_rest, sel_meal;
-    private Button cont_btn;
-    private SharedPreferences session;
     private SharedPreferences.Editor editor;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_success);
 
-        session = getApplicationContext().getSharedPreferences("session", 0);
+        SharedPreferences session = getApplicationContext().getSharedPreferences("session", 0);
         editor = session.edit();
 
-        sel_rest = (Spinner) findViewById(R.id.select_restaurant);
-        sel_meal = (Spinner) findViewById(R.id.select_meal);
-        cont_btn = (Button) findViewById(R.id.select_rest_done);
+        Spinner sel_rest = (Spinner) findViewById(R.id.select_restaurant);
+        Spinner sel_meal = (Spinner) findViewById(R.id.select_meal);
+        Button cont_btn = (Button) findViewById(R.id.select_rest_done);
 
         cont_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +59,8 @@ public class LoginSuccess extends AppCompatActivity {
 
         try {
             responseArray = new JSONArray(i.getStringExtra("validatedResponse"));
-            restaurantList = new JSONArray(responseArray.getJSONObject(0).getString("restuarantList").toString());
-            mealPeriodList = new JSONArray(responseArray.getJSONObject(0).getString("mealPeriodList").toString());
+            restaurantList = new JSONArray(responseArray.getJSONObject(0).getString("restuarantList"));
+            mealPeriodList = new JSONArray(responseArray.getJSONObject(0).getString("mealPeriodList"));
 
             int c1 = 0, c2 = 0;
             while (c1 < restaurantList.length()) {
@@ -94,11 +93,8 @@ public class LoginSuccess extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        ArrayAdapter<String> spinAdapterRestaurant = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, restName);
-        spinAdapterRestaurant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        ArrayAdapter<String> spinAdapterMeal = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mealPeriodName);
-        spinAdapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> spinAdapterRestaurant = new ArrayAdapter<>(this, R.layout.login_spinner_item, restName);
+        ArrayAdapter<String> spinAdapterMeal = new ArrayAdapter<>(this, R.layout.login_spinner_item, mealPeriodName);
 
         sel_rest.setAdapter(spinAdapterRestaurant);
         sel_rest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -132,7 +128,6 @@ public class LoginSuccess extends AppCompatActivity {
     // back navigation button disabled
     @Override
     public void onBackPressed() {
-        return;
     }
 
     public void Continue() {

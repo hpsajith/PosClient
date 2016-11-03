@@ -3,7 +3,6 @@ package com.ites.pos.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,23 +36,20 @@ import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
 
-    ArrayList<String> userList = new ArrayList<String>();
+    ArrayList<String> userList = new ArrayList<>();
 
     // authenticate the user
-    final String urlAuthUser = "http://10.1.1.66:8080/UserController/validateLoginUser";
-//    final String urlAuthUser = "http://192.168.43.178:8080/UserController/validateLoginUser";
+//    final String urlAuthUser = "http://10.1.1.66:8080/UserController/validateLoginUser";
+    final String urlAuthUser = "http://192.168.43.178:8080/UserController/validateLoginUser";
 
     // UI references
     private Spinner uname;
     private EditText passwd;
     private Button lgn_btn;
-    private TextView label;
     private View login_progress;
-    private FrameLayout login_root;
 
     // athenticate
     private String username = null;
-    private UserAuth userAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +63,6 @@ public class Login extends AppCompatActivity {
         passwd = (EditText) findViewById(R.id.passwd);
         lgn_btn = (Button) findViewById(R.id.login_btn);
         login_progress = findViewById(R.id.progressBar);
-        login_root = (FrameLayout) findViewById(R.id.login_root);
     }
 
     @Override
@@ -82,15 +76,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, userList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.login_spinner_item, userList);
 
         uname.setAdapter(dataAdapter);
 
         uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String item = parentView.getItemAtPosition(position).toString();
                 username = parentView.getItemAtPosition(position).toString();
             }
 
@@ -104,7 +96,6 @@ public class Login extends AppCompatActivity {
     // back navigation button disabled
     @Override
     public void onBackPressed() {
-        return;
     }
 
     private void attemptLogin() {
@@ -113,7 +104,7 @@ public class Login extends AppCompatActivity {
 
         String password = passwd.getText().toString();
 
-        userAuth = new Login.UserAuth(username, password);
+        UserAuth userAuth = new UserAuth(username, password);
         userAuth.execute((Void) null);
     }
 
@@ -160,7 +151,7 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String urlAuth = null;
+            String urlAuth;
             urlAuth = urlAuthUser + "?username=" + username + "&password=" + password;
 
             try {
@@ -179,6 +170,7 @@ public class Login extends AppCompatActivity {
                                     // invalid logins returns [{null}]
                                     if (responseArray.getJSONObject(0) == null) {
                                         // make the JSONException throws
+                                        responseArray.getJSONObject(0);
                                     } else {
                                         // valid activity_login re direct to select restaurant
                                         showProgress(false);
@@ -189,7 +181,7 @@ public class Login extends AppCompatActivity {
                                     }
                                 } catch (JSONException ex) {
                                     // notify user : Invalid activity_login
-                                    Toast.makeText((Context) getApplicationContext(), "Invalid activity_login! Try again!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Wrong password! Try again!", Toast.LENGTH_SHORT).show();
                                     showProgress(false);
                                 }
                             }

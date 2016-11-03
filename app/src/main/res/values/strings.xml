@@ -29,5 +29,24 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="background_image">Background Image</string>
+    <string name="company_logo">Company Logo</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="login_success_hint">Select your restaurant and the meal period here.</string>
+    <string name="continue_btn_txt">Continue</string>
+    <string name="close_button_des">close button</string>
+    <string name="guest_label">Guest:</string>
+    <string name="loading_txt">loading...</string>
+    <string name="time_label">Time:</string>
+    <string name="room_no_label">Room No:</string>
+    <string name="user_label">User:</string>
+    <string name="kot_total_label">KOT total :</string>
+    <string name="kot_no_label">KOT No:</string>
+    <string name="edit_btn_txt">Edit</string>
+    <string name="print_bill_txt">Print Bill</string>
+    <string name="new_btn_txt">New</string>
+    <string name="close_bill_btn_txt">Close Bill</string>
+    <string name="table_image">table image</string>
 
 </resources>

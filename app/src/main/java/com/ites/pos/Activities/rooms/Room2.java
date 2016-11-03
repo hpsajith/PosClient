@@ -150,7 +150,6 @@ public class Room2 extends Fragment {
 
                             // set KOT No spinner
                             ArrayAdapter<String> kotAdapter = new ArrayAdapter<>(getContext(), R.layout.kot_spinner_item, KOTNums);
-                            kotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             kotNoD.setAdapter(kotAdapter);
 
                             kotNoD.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -273,12 +272,10 @@ public class Room2 extends Fragment {
     }
 
     public class TableAdapter extends BaseAdapter {
-        private Context ctx;
         private LayoutInflater mInflator;
         private TextView tabName;
 
-        public TableAdapter(Context ctx) {
-            this.ctx = ctx;
+        TableAdapter(Context ctx) {
             mInflator = LayoutInflater.from(ctx);
         }
 

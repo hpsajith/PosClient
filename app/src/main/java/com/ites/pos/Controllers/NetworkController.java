@@ -18,8 +18,10 @@ public class NetworkController {
     private Context ctx;
 
     // Webservice URL endpoints
-    final private String urlGetTableConfigs = "http://10.1.1.66:8080/TableController/getAllTables";
-    final private String urlGetOpenTables = "http://10.1.1.66:8080/TableController/getOpenTableDetail";
+//    final private String urlGetTableConfigs = "http://10.1.1.66:8080/TableController/getAllTables";
+    final private String urlGetTableConfigs = "http://192.168.43.178:8080/TableController/getAllTables";
+//    final private String urlGetOpenTables = "http://10.1.1.66:8080/TableController/getOpenTableDetail";
+    final private String urlGetOpenTables = "http://192.168.43.178:8080/TableController/getOpenTableDetail";
 
     public NetworkController(Context ctx) {
         this.ctx = ctx;
