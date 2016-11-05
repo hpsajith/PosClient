@@ -6,5 +6,16 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+
+    <!-- #popup window Light Scheme# -->
+    <color name="popupBg">#ddffffff</color>
+    <color name="popUptxtcolorPrimary">#050505</color>
+    <color name="popUptxtcolorSecondary">#767676</color>
+    <color name="popUptxtcolorExtra">#ff2a2a</color>
+
+    <!-- #popup window Dark Scheme#
     <color name="popupBg">#ee202020</color>
+    <color name="popUptxtcolorPrimary">#ffffff</color>
+    <color name="popUptxtcolorSecondary">#767676</color>
+    <color name="popUptxtcolorExtra">#ff2a2a</color>-->
 </resources>
