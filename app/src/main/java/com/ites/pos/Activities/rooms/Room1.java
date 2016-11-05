@@ -42,7 +42,7 @@ import java.util.List;
  */
 
 public class Room1 extends Fragment {
-    private int BILL_MAX_HEIGHT = 250;
+    private int BILL_MAX_HEIGHT = 310;
     private JSONArray tableConfigs;
     private PopupWindow orderInfo;
     private ImageButton closeBtn;
@@ -59,8 +59,8 @@ public class Room1 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getResources().getConfiguration().smallestScreenWidthDp < 420){
-            BILL_MAX_HEIGHT = 200;
+        if (getResources().getConfiguration().smallestScreenWidthDp < 420) {
+            BILL_MAX_HEIGHT = 270;
         }
     }
 

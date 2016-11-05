@@ -42,6 +42,7 @@ import java.util.List;
  */
 
 public class Room5 extends Fragment {
+    private int BILL_MAX_HEIGHT = 310;
     private JSONArray tableConfigs;
     private PopupWindow orderInfo;
     private ImageButton closeBtn;
@@ -57,6 +58,9 @@ public class Room5 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getResources().getConfiguration().smallestScreenWidthDp < 420) {
+            BILL_MAX_HEIGHT = 270;
+        }
     }
 
     @Override
@@ -180,7 +184,7 @@ public class Room5 extends Fragment {
                                     ViewGroup.LayoutParams params = billItems.getLayoutParams();
 
                                     if (billItemsList.size() > 7) {
-                                        params.height = 310;
+                                        params.height = BILL_MAX_HEIGHT;
                                     } else {
                                         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                                     }
@@ -271,12 +275,10 @@ public class Room5 extends Fragment {
     }
 
     public class TableAdapter extends BaseAdapter {
-        private Context ctx;
         private LayoutInflater mInflator;
         private TextView tabName;
 
         TableAdapter(Context ctx) {
-            this.ctx = ctx;
             mInflator = LayoutInflater.from(ctx);
         }
 
