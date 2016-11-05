@@ -48,5 +48,6 @@
     <string name="new_btn_txt">New</string>
     <string name="close_bill_btn_txt">Close Bill</string>
     <string name="table_image">table image</string>
+    <string name="logout">Logout</string>
 
 </resources>
