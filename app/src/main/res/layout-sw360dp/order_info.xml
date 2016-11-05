@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:background="@color/popupBg"
-        android:layout_height="230dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="55dp"
         android:layout_marginRight="55dp">
 
@@ -53,13 +53,13 @@
             android:id="@+id/container"
             android:layout_width="350dp"
             android:orientation="vertical"
-            android:layout_height="310dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/comp1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="20dp"
                 android:orientation="horizontal"
                 android:weightSum="10"
                 android:layout_marginRight="25dp"
@@ -76,14 +76,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/guest_label"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/popUptxtcolorPrimary"
                         android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/guestVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textColor="@color/popUptxtcolorSecondary"
                         android:textSize="14sp"
                         android:text="@string/loading_txt"
                         android:layout_marginLeft="10dp" />
@@ -101,14 +101,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/time_label"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/popUptxtcolorPrimary"
                         android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/timeStampVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textColor="@color/popUptxtcolorSecondary"
                         android:textSize="14sp"
                         android:text="@string/loading_txt"
                         android:layout_marginLeft="10dp" />
@@ -119,7 +119,7 @@
                 android:id="@+id/comp2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="20dp"
                 android:orientation="horizontal"
                 android:layout_marginRight="25dp"
                 android:baselineAligned="false">
@@ -135,14 +135,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/room_no_label"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/popUptxtcolorPrimary"
                         android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/roomNoVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textColor="@color/popUptxtcolorSecondary"
                         android:textSize="14sp"
                         android:text="@string/loading_txt"
                         android:layout_marginLeft="10dp" />
@@ -159,14 +159,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/user_label"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/popUptxtcolorPrimary"
                         android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/userVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?android:attr/textColorSecondaryInverse"
+                        android:textColor="@color/popUptxtcolorSecondary"
                         android:textSize="14sp"
                         android:text="@string/loading_txt"
                         android:layout_marginLeft="10dp" />
@@ -178,7 +178,7 @@
                 android:id="@+id/comp3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="20dp"
                 android:orientation="horizontal"
                 android:layout_marginRight="25dp">
 
@@ -187,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/kot_no_label"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/popUptxtcolorPrimary"
                     android:textSize="14sp" />
 
                 <Spinner
@@ -195,7 +195,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_marginLeft="5dp" />
 
             </LinearLayout>
 
@@ -205,7 +206,7 @@
                 android:paddingRight="15dp"
                 android:paddingLeft="15dp"
                 android:layout_width="350dp"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/billItems"
@@ -217,7 +218,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2">
+                    android:weightSum="2"
+                    android:layout_marginTop="5dp">
 
                     <TextView
                         android:text="@string/kot_total_label"
@@ -228,7 +230,7 @@
                         android:textStyle="normal|bold"
                         android:gravity="right"
                         android:textSize="14sp"
-                        android:textColor="@android:color/holo_red_light" />
+                        android:textColor="@color/popUptxtcolorExtra" />
 
                     <TextView
                         android:text="@string/loading_txt"
@@ -236,7 +238,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/kotTotal"
                         android:textSize="16sp"
-                        android:textColor="@android:color/holo_red_light"
+                        android:textColor="@color/popUptxtcolorExtra"
                         android:textStyle="normal|bold"
                         android:layout_weight="1"
                         android:gravity="right" />
@@ -247,13 +249,14 @@
             <LinearLayout
                 android:id="@+id/comp7"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:orientation="horizontal"
                 android:weightSum="9"
                 android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <Button
                     android:id="@+id/newBtn"

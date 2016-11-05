@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/billItem"
     android:weightSum="3"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:layout_width="350dp">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:textStyle="normal|bold"
         android:textSize="12sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/popUptxtcolorPrimary"
         android:textAlignment="center"
         android:gravity="center"
         android:layout_width="20dp" />
@@ -26,7 +26,7 @@
         android:layout_weight="1"
         android:textStyle="normal|bold"
         android:textSize="12sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/popUptxtcolorPrimary"
         android:textAlignment="center"
         android:gravity="center"
         android:layout_width="180dp" />
@@ -38,7 +38,7 @@
         android:layout_weight="1"
         android:textStyle="normal|bold"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@color/popUptxtcolorPrimary"
         android:textSize="12sp"
         android:gravity="center"
         android:layout_width="100dp" />
