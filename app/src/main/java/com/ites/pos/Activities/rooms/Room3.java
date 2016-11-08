@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -276,12 +277,11 @@ public class Room3 extends Fragment {
     }
 
     public class TableAdapter extends BaseAdapter {
-        private Context ctx;
         private LayoutInflater mInflator;
         private TextView tabName;
+        private ImageView bookedLabel;
 
         TableAdapter(Context ctx) {
-            this.ctx = ctx;
             mInflator = LayoutInflater.from(ctx);
         }
 
@@ -300,9 +300,11 @@ public class Room3 extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             String tableName = null;
+            int tableStatus = 0;
             try {
                 JSONObject tmp = tableConfigs.getJSONObject(position);
                 tableName = tmp.getString("tableName");
+                tableStatus = tmp.getInt("tableStatus");
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
@@ -310,6 +312,11 @@ public class Room3 extends Fragment {
             convertView = mInflator.inflate(R.layout.table_item, parent, false);
 
             tabName = (TextView) convertView.findViewById(R.id.tableName);
+            bookedLabel = (ImageView) convertView.findViewById(R.id.booked);
+
+            if(tableStatus == 1){
+                bookedLabel.setVisibility(ImageView.VISIBLE);
+            }
             tabName.setText(tableName);
 
             return convertView;

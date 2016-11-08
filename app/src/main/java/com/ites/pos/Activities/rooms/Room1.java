@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,7 +60,6 @@ public class Room1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getResources().getConfiguration().smallestScreenWidthDp < 420) {
             BILL_MAX_HEIGHT = 270;
         }
@@ -203,6 +204,7 @@ public class Room1 extends Fragment {
                                             Intent nxt = new Intent(getActivity(), NewBill.class);
                                             nxt.putExtra("tableId", finalTableId);
                                             startActivity(nxt);
+
                                         }
                                     });
 
@@ -278,6 +280,7 @@ public class Room1 extends Fragment {
     public class TableAdapter extends BaseAdapter {
         private LayoutInflater mInflator;
         private TextView tabName;
+        private ImageView bookedLabel;
 
         TableAdapter(Context ctx) {
             mInflator = LayoutInflater.from(ctx);
@@ -298,9 +301,11 @@ public class Room1 extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             String tableName = null;
+            int tableStatus = 0;
             try {
                 JSONObject tmp = tableConfigs.getJSONObject(position);
                 tableName = tmp.getString("tableName");
+                tableStatus = tmp.getInt("tableStatus");
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
@@ -308,6 +313,11 @@ public class Room1 extends Fragment {
             convertView = mInflator.inflate(R.layout.table_item, parent, false);
 
             tabName = (TextView) convertView.findViewById(R.id.tableName);
+            bookedLabel = (ImageView) convertView.findViewById(R.id.booked);
+
+            if(tableStatus == 1){
+                bookedLabel.setVisibility(ImageView.VISIBLE);
+            }
             tabName.setText(tableName);
 
             return convertView;
