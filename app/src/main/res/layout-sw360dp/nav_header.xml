@@ -4,15 +4,17 @@
     android:id="@+id/view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top"
+    android:gravity="center"
     android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_gravity="center">
 
         <LinearLayout
             android:id="@+id/desc"
@@ -20,7 +22,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_gravity="center">
 
             <ImageView
                 android:id="@+id/img_profile"
@@ -53,13 +56,12 @@
 
         <Button
             android:text="@string/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:id="@+id/logout"
             android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+            android:background="@drawable/button"
+            android:textSize="12sp"
+            android:layout_height="30dp" />
     </LinearLayout>
 
 </LinearLayout>
