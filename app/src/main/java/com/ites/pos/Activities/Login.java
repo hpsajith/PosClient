@@ -39,8 +39,8 @@ public class Login extends AppCompatActivity {
     ArrayList<String> userList = new ArrayList<>();
 
     // authenticate the user
-//    final String urlAuthUser = "http://10.1.1.66:8080/UserController/validateLoginUser";
-    final String urlAuthUser = "http://192.168.43.178:8080/UserController/validateLoginUser";
+    final String urlAuthUser = "http://10.1.1.66:8080/UserController/validateLoginUser";
+//    final String urlAuthUser = "http://192.168.43.178:8080/UserController/validateLoginUser";
 
     // UI references
     private Spinner uname;
@@ -178,6 +178,7 @@ public class Login extends AppCompatActivity {
                                         i.putExtra("username", username);
                                         i.putExtra("validatedResponse", response.toString());
                                         startActivity(i);
+                                        finish();
                                     }
                                 } catch (JSONException ex) {
                                     // notify user : Invalid activity_login

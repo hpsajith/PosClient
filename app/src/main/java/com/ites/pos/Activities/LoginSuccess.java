@@ -140,5 +140,6 @@ public class LoginSuccess extends AppCompatActivity {
 
         Intent nxt = new Intent(LoginSuccess.this, MainActivity.class);
         startActivity(nxt);
+        finish();
     }
 }

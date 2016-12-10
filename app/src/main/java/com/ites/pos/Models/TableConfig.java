@@ -14,17 +14,19 @@ public class TableConfig {
     private String table_Id;
     private String tableName;
     private String roomName;
+    private int tableStatus;
 
     public TableConfig() {
     }
 
-    public TableConfig(String configid, String restrauntId, String room_Id, String table_Id, String tableName, String roomName) {
+    public TableConfig(String configid, String restrauntId, String room_Id, String table_Id, String tableName, String roomName, int tableStatus) {
         this.configid = configid;
         this.restrauntId = restrauntId;
         this.room_Id = room_Id;
         this.table_Id = table_Id;
         this.tableName = tableName;
         this.roomName = roomName;
+        this.tableStatus = tableStatus;
     }
 
     public TableConfig(JSONObject jObj) {
@@ -35,6 +37,7 @@ public class TableConfig {
             this.table_Id = jObj.get("tableId").toString();
             this.tableName = jObj.get("tableName").toString();
             this.roomName = jObj.get("restRoomName").toString();
+            this.tableStatus = (int)jObj.get("tableStatus");
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -88,6 +91,14 @@ public class TableConfig {
         this.roomName = roomName;
     }
 
+    public int getTableStatus() {
+        return tableStatus;
+    }
+
+    public void setTableStatus(int tableStatus) {
+        this.tableStatus = tableStatus;
+    }
+
     // convert java bean to JSON object
     public JSONObject toJSONObject() {
 
@@ -99,6 +110,7 @@ public class TableConfig {
             obj.put("table_Id", table_Id);
             obj.put("tableName", tableName);
             obj.put("roomName", roomName);
+            obj.put("tableStatus", tableStatus);
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -120,6 +132,7 @@ public class TableConfig {
                 ", table_Id='" + table_Id + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", roomName='" + roomName + '\'' +
+                ", tableStatus='" + tableStatus + '\'' +
                 '}';
     }
 

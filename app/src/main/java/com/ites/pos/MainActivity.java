@@ -1,5 +1,6 @@
 package com.ites.pos;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,10 +11,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ites.pos.Activities.Login;
+import com.ites.pos.Activities.LoginSuccess;
+import com.ites.pos.Activities.PosSplash;
 import com.ites.pos.Activities.rooms.Room1;
 import com.ites.pos.Activities.rooms.Room10;
 import com.ites.pos.Activities.rooms.Room2;
@@ -41,7 +48,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
-
+    private ProgressBar loading;
     private String restID;
 
     @Override
@@ -50,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get session info
-        SharedPreferences session = getApplicationContext().getSharedPreferences("session", 0);
+        final SharedPreferences session = getApplicationContext().getSharedPreferences("session", 0);
 
         restID = session.getString("restaurantId", "0");
-
+        loading = (ProgressBar) findViewById(R.id.tableLoadingProgress);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(session.getString("restaurantName", "Restaurant Name"));
         toolbar.setNavigationIcon(R.drawable.ic_dehaze_white_36dp);
@@ -70,8 +77,20 @@ public class MainActivity extends AppCompatActivity {
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
         TextView name = (TextView)header.findViewById(R.id.name);
         TextView email = (TextView)header.findViewById(R.id.email);
-        name.setText("Itess Software");
-        email.setText("itess@mail.com");
+        Button logout = (Button) header.findViewById(R.id.logout);
+        name.setText("User: "+session.getString("username", "Username"));
+        email.setText("Meal Period: "+session.getString("mealPeriodName", "Meal Period"));
+
+        // logout listener
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logout = new Intent(MainActivity.this, PosSplash.class);
+                session.edit().clear().apply();
+                startActivity(logout);
+                finish();
+            }
+        });
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -138,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
         netCtrl.getAllTableConfigs(restID, new ResponseCallBack() {
             @Override
             public void gotTableConfigs(String responseStr) {
+                // set progressbar invisible
+                loading.setVisibility(ProgressBar.INVISIBLE);
+
                 try {
                     JSONArray response = new JSONArray(responseStr);
 
@@ -166,24 +188,6 @@ public class MainActivity extends AppCompatActivity {
 
                     roomSet.add(config.getRoomName());
                 }
-
-
-                /*for (Iterator<String> room = roomSet.iterator(); room.hasNext(); ) {
-                    String tableConfigs;
-                    String roomName = room.next();
-
-                    // convert configMap to JSONArray
-                    JSONArray configMapJsonArray = new JSONArray();
-                    for (int j = 0; j < configMap.get(roomName).size(); j++) {
-                        configMapJsonArray.put(configMap.get(roomName).get(j).toJSONObject());
-                    }
-
-                    tableConfigs = configMapJsonArray.toString();
-
-                    adapter.addFragment(getFragment(i, tableConfigs), roomName);
-                    i++;
-                }*/
-
 
                 int i = 0;
                 for (String aRoom : roomSet) {

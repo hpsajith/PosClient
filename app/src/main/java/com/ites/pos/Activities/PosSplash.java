@@ -29,8 +29,8 @@ public class PosSplash extends AppCompatActivity {
     ArrayList<String> userList = new ArrayList<>();
 
     // get user list
-//    final String urlGetUsers = "http://10.1.1.66:8080/UserController/getAllUsers";
-    final String urlGetUsers = "http://192.168.43.178:8080/UserController/getAllUsers";
+    final String urlGetUsers = "http://10.1.1.66:8080/UserController/getAllUsers";
+//    final String urlGetUsers = "http://192.168.43.178:8080/UserController/getAllUsers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -55,7 +55,7 @@
             android:text="@string/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:id="@+id/logout"
             android:gravity="center"
             android:background="@color/colorPrimary"
             android:layout_marginLeft="30dp"
