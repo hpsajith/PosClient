@@ -64,7 +64,8 @@
                 android:paddingLeft="20dp"
                 android:weightSum="10"
                 android:paddingRight="20dp"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -123,7 +124,8 @@
                 android:layout_marginLeft="15dp"
                 android:orientation="horizontal"
                 android:padding="5dp"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -182,7 +184,8 @@
                 android:layout_marginLeft="15dp"
                 android:orientation="horizontal"
                 android:padding="5dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/kotNoLabel"
@@ -209,18 +212,36 @@
                 android:paddingRight="15dp"
                 android:paddingLeft="15dp">
 
+                <TextView
+                    android:text="No KOTs to show."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emptyTableLabel"
+                    android:gravity="center"
+                    android:textSize="36sp"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loadingKotProgressBar" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/billItems"
                     android:scrollbars="vertical"
                     android:layout_width="600dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="2"
-                    android:layout_margin="15dp">
+                    android:layout_margin="15dp"
+                    android:id="@+id/kotTotalPanel"
+                    android:visibility="invisible">
 
                     <TextView
                         android:text="@string/kot_total_label"
@@ -264,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1.5"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/new_btn_txt"
                     android:textColor="@android:color/white" />
 
@@ -274,7 +295,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1.5"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/edit_btn_txt"
                     android:textColor="@android:color/white" />
 
@@ -284,7 +305,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/print_bill_txt"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
@@ -295,7 +316,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/close_bill_btn_txt"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"/>
