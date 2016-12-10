@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="50dp"
+    android:layout_width="350dp">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:id="@+id/reservRoomList"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_width="350dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Room No"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Guest Name"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:layout_width="wrap_content" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Package"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:layout_width="50dp" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Reservation No"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:layout_width="76dp" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Conf. No"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:layout_width="55dp" />
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:id="@+id/managerList"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/reservRoomList"
+        android:layout_width="350dp">
+
+        <TextView
+            android:text="Account Number"
+            android:layout_height="wrap_content"
+            android:id="@+id/mName"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textStyle="normal|bold"
+            android:layout_width="175dp" />
+
+        <TextView
+            android:text="Account Name"
+            android:layout_height="wrap_content"
+            android:id="@+id/accNo"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textStyle="normal|bold"
+            android:layout_width="175dp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/selectGuestList"
+        android:layout_height="100dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/numberPicker"
+        android:layout_below="@+id/selectGuestList"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toEndOf="@+id/selectGuestList"
+        android:layout_height="120dp">
+
+        <TextView
+            android:text="Adults Count"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textSize="13sp"
+            android:textStyle="normal|bold"
+            android:gravity="right"
+            android:padding="10dp"
+            android:layout_width="100dp" />
+
+        <NumberPicker
+            android:orientation="horizontal"
+            android:id="@+id/adultCount"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:scaleX="0.6"
+            android:scaleY="0.75"
+            style="@android:style/Widget.Material.Light.NumberPicker" />
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/childrenCount"
+            android:gravity="center"
+            android:scaleX="0.6"
+            android:scaleY="0.75"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:text="Kids Count"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView10"
+            android:textSize="13sp"
+            android:textStyle="normal|bold"
+            android:padding="10dp"
+            android:layout_width="100dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="bottom|center_horizontal"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:text="Basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/basicBtn"
+            android:fontFamily="sans-serif-medium"
+            android:layout_margin="5dp"
+            android:textSize="12sp"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:layout_gravity="center_vertical" />
+
+        <Button
+        android:text="Complementary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/complementaryBtn"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="12sp"
+        android:background="@drawable/button"
+        android:textColor="@android:color/white"
+        android:layout_margin="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical" />
+        <Button
+            android:text="Extra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/extraBtn"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center" />
+        <Button
+            android:text="Continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cntBtn"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_margin="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+</LinearLayout>
