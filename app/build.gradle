@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.ites.pos.posclient"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         vectorDrawables.useSupportLibrary = true
         versionCode 1
