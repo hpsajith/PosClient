@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:layout_marginTop="31dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button"
             android:elevation="10dp"
             android:text="@string/continue_btn_txt"
             android:textColor="@android:color/white" />

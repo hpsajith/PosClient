@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
             app:tabGravity="fill"
-            app:tabTextAppearance="@style/tabLayoutTextCustom"/>
+            app:tabTextAppearance="@style/tabLayoutTextCustomSW800dp"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

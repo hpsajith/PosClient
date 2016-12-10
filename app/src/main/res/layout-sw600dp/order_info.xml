@@ -264,7 +264,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1.5"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/new_btn_txt"
                     android:textColor="@android:color/white" />
 
@@ -274,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1.5"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/edit_btn_txt"
                     android:textColor="@android:color/white" />
 
@@ -284,7 +284,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/print_bill_txt"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
@@ -295,7 +295,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/button"
                     android:text="@string/close_bill_btn_txt"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"/>
