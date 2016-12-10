@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:weightSum="5"
+    android:layout_width="350dp">
+
+    <TextView
+        android:id="@+id/roomNo"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="roomNo"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:layout_width="42dp" />
+
+    <TextView
+        android:id="@+id/fName"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="fName"
+        android:textSize="14sp"
+        android:layout_width="75dp" />
+
+    <TextView
+        android:id="@+id/pakage"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="package"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:layout_width="50dp" />
+
+    <TextView
+        android:id="@+id/reservationNo"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="reservationNo"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:layout_width="70dp" />
+
+    <TextView
+        android:id="@+id/confNo"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="confNo"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:layout_width="63dp" />
+</LinearLayout>

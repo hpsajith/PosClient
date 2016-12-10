@@ -8,31 +8,22 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ites.pos.Activities.Login;
-import com.ites.pos.Activities.LoginSuccess;
 import com.ites.pos.Activities.PosSplash;
-import com.ites.pos.Activities.rooms.Room1;
-import com.ites.pos.Activities.rooms.Room10;
-import com.ites.pos.Activities.rooms.Room2;
-import com.ites.pos.Activities.rooms.Room3;
-import com.ites.pos.Activities.rooms.Room4;
-import com.ites.pos.Activities.rooms.Room5;
-import com.ites.pos.Activities.rooms.Room6;
-import com.ites.pos.Activities.rooms.Room7;
-import com.ites.pos.Activities.rooms.Room8;
-import com.ites.pos.Activities.rooms.Room9;
-import com.ites.pos.Controllers.NetworkController;
-import com.ites.pos.Controllers.ResponseCallBack;
+import com.ites.pos.Activities.fragments.RoomFragment;
 import com.ites.pos.Models.TableConfig;
 import com.ites.pos.main_activity.R;
 
@@ -49,7 +40,7 @@ import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
     private ProgressBar loading;
-    private String restID;
+    private String restID, houseAccList, reservRoomList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(session.getString("restaurantName", "Restaurant Name"));
         toolbar.setNavigationIcon(R.drawable.ic_dehaze_white_36dp);
         setSupportActionBar(toolbar);
+        final DrawerLayout navDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         // configs actionbar and status bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
         // set nav_header params
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
-        View header=navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        TextView name = (TextView)header.findViewById(R.id.name);
-        TextView email = (TextView)header.findViewById(R.id.email);
+        TextView name = (TextView) header.findViewById(R.id.name);
+        TextView email = (TextView) header.findViewById(R.id.email);
         Button logout = (Button) header.findViewById(R.id.logout);
-        name.setText("User: "+session.getString("username", "Username"));
-        email.setText("Meal Period: "+session.getString("mealPeriodName", "Meal Period"));
+        name.setText("User: " + session.getString("username", "Username"));
+        email.setText("Meal Period: " + session.getString("mealPeriodName", "Meal Period"));
 
         // logout listener
         logout.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // navigation menu toggle
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navDrawer.openDrawer(GravityCompat.START, true);
+            }
+        });
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -99,60 +99,113 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private Fragment getFragment(int position, String tableConfigs) {
+    private Fragment getFragment(int position, String tableConfigs, String houseAccList, String reservRoomList) {
         switch (position) {
             case 0:
-                Room1 fragR1 = new Room1();
-                Bundle argsR1 = new Bundle();
-                argsR1.putString("tableConfigs", tableConfigs);
-                fragR1.setArguments(argsR1);
+                RoomFragment fragR1 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
                 return fragR1;
             case 1:
-                Room2 fragR2 = new Room2();
-                Bundle argsR2 = new Bundle();
-                argsR2.putString("tableConfigs", tableConfigs);
-                fragR2.setArguments(argsR2);
+                RoomFragment fragR2 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
                 return fragR2;
             case 2:
-                Room3 fragR3 = new Room3();
-                Bundle argsR3 = new Bundle();
-                argsR3.putString("tableConfigs", tableConfigs);
-                fragR3.setArguments(argsR3);
+                RoomFragment fragR3 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
                 return fragR3;
             case 3:
-                Room4 fragR4 = new Room4();
-                Bundle argsR4 = new Bundle();
-                argsR4.putString("tableConfigs", tableConfigs);
-                fragR4.setArguments(argsR4);
+                RoomFragment fragR4 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
                 return fragR4;
             case 4:
-                Room5 fragR5 = new Room5();
-                Bundle argsR5 = new Bundle();
-                argsR5.putString("tableConfigs", tableConfigs);
-                fragR5.setArguments(argsR5);
+                RoomFragment fragR5 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
                 return fragR5;
             case 5:
-                return new Room6();
+                RoomFragment fragR6 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
+                return fragR6;
             case 6:
-                return new Room7();
+                RoomFragment fragR7 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
+                return fragR7;
             case 7:
-                return new Room8();
+                RoomFragment fragR8 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
+                return fragR8;
             case 8:
-                return new Room9();
+                RoomFragment fragR9 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
+                return fragR9;
             case 9:
-                return new Room10();
+                RoomFragment fragR10 = RoomFragment.newInstance(tableConfigs, houseAccList, reservRoomList);
+                return fragR10;
             default:
                 return null;
         }
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(final ViewPager viewPager) {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         final NetworkController netCtrl = new NetworkController(getApplicationContext());
 
         final List<TableConfig> configs = new ArrayList<>();
-        final ViewPager viewPagerRef = viewPager;
+
+        netCtrl.getHouseAccListList(new ResponseCallBack() {
+            @Override
+            public void gotAllUsers(String data) {
+
+            }
+
+            @Override
+            public void gotUserAuth(String data) {
+
+            }
+
+            @Override
+            public void gotTableConfigs(String data) {
+
+            }
+
+            @Override
+            public void gotOpenTableDetails(String data) {
+
+            }
+
+            @Override
+            public void gotReservationRoomList(String data) {
+
+            }
+
+            @Override
+            public void gotHouseAccList(String data) {
+                houseAccList = data;
+            }
+        });
+
+        netCtrl.getReservationRoomList(new ResponseCallBack() {
+            @Override
+            public void gotAllUsers(String data) {
+
+            }
+
+            @Override
+            public void gotUserAuth(String data) {
+
+            }
+
+            @Override
+            public void gotTableConfigs(String data) {
+
+            }
+
+            @Override
+            public void gotOpenTableDetails(String data) {
+
+            }
+
+            @Override
+            public void gotReservationRoomList(String data) {
+                reservRoomList = data;
+            }
+
+            @Override
+            public void gotHouseAccList(String data) {
+
+            }
+        });
 
         netCtrl.getAllTableConfigs(restID, new ResponseCallBack() {
             @Override
@@ -173,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Set<String> roomSet = new TreeSet<>();
                 Map<String, List<TableConfig>> configMap = new HashMap<>();
-
 
                 for (TableConfig config : configs) {
                     if (configMap.containsKey(config.getRoomName())) {
@@ -201,16 +253,36 @@ public class MainActivity extends AppCompatActivity {
 
                     tableConfigs = configMapJsonArray.toString();
 
-                    adapter.addFragment(getFragment(i, tableConfigs), aRoom);
+                    adapter.addFragment(getFragment(i, tableConfigs, houseAccList, reservRoomList), aRoom);
                     i++;
                 }
-                viewPagerRef.setAdapter(adapter);
+                viewPager.setAdapter(adapter);
 
                 netCtrl.clearRequestQueue();
             }
 
             @Override
             public void gotOpenTableDetails(String data) {
+            }
+
+            @Override
+            public void gotReservationRoomList(String data) {
+
+            }
+
+            @Override
+            public void gotHouseAccList(String data) {
+
+            }
+
+            @Override
+            public void gotAllUsers(String data) {
+
+            }
+
+            @Override
+            public void gotUserAuth(String data) {
+
             }
         });
     }
@@ -220,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -238,14 +310,14 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+
+        void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
         }
     }
 }

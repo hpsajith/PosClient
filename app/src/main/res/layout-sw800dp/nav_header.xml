@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/logout"
             android:gravity="center"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" />
     </LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#88000000">
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"
+        android:background="@color/popupBg"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_height="600dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:id="@+id/popupHeader">
+
+            <TextView
+                android:id="@+id/tableHeader_selectGuest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="normal|bold" />
+
+            <ImageButton
+                android:id="@+id/closeBtn_selectGuest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="#00FFFFFF"
+                android:contentDescription="fef"
+                android:elevation="5dp"
+                android:paddingRight="10dp"
+                app:srcCompat="@drawable/ic_close_white_48dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/tabContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/popupHeader">
+
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                app:expanded="false"
+                app:elevation="0dp"
+                android:background="#00ffffff"
+                android:id="@+id/appBarLayout">
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/selectGuestTabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foregroundTint="@color/colorAccent"
+                    app:layout_scrollFlags="enterAlways"
+                    app:tabGravity="fill"
+                    app:tabTextAppearance="@style/tabLayoutTextCustomSW800dp"
+                    app:tabIndicatorColor="@color/colorAccent" />
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/selectGuestViewpager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
