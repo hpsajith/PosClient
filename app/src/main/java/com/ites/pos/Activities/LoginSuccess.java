@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class LoginSuccess extends AppCompatActivity {
-    private String username = null;
+    private String username, userId;
     private String selectedRestaurantName = null;
     private String selectedMealPeriodName = null;
     private String selectedRestaurantId = null;
@@ -54,6 +54,7 @@ public class LoginSuccess extends AppCompatActivity {
 
         Intent i = getIntent();
         username = i.getStringExtra("username");
+        userId = i.getStringExtra("userId");
 
         JSONArray responseArray, restaurantList, mealPeriodList;
 
@@ -132,6 +133,7 @@ public class LoginSuccess extends AppCompatActivity {
 
     public void Continue() {
         editor.putString("username", username);
+        editor.putString("userId", userId);
         editor.putString("restaurantId", selectedRestaurantId);
         editor.putString("restaurantName", selectedRestaurantName);
         editor.putString("mealPeriodId", selectedMealPeriodId);
