@@ -48,9 +48,6 @@
             android:name="com.ites.pos.Activities.LoginSuccess"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <!--Create New bill-->
-        <activity
-            android:name="com.ites.pos.Activities.NewBill"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
     </application>
 
 </manifest>
