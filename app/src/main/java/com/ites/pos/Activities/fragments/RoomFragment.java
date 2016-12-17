@@ -377,6 +377,11 @@ public class RoomFragment extends Fragment {
                     public void gotHouseAccList(String data) {
 
                     }
+
+                    @Override
+                    public void gotRestaurantItems(String data) {
+
+                    }
                 });
 
                 orderInfo = new PopupWindow(orderInfoDisplay, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

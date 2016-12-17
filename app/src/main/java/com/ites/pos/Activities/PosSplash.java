@@ -63,6 +63,11 @@ public class PosSplash extends AppCompatActivity {
             public void gotHouseAccList(String data) {
 
             }
+
+            @Override
+            public void gotRestaurantItems(String data) {
+
+            }
         });
 
         // handler to redirect the splash
