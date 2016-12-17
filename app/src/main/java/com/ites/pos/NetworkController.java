@@ -1,5 +1,6 @@
 package com.ites.pos;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -53,11 +54,12 @@ public class NetworkController {
         this.ctx = ctx;
     }
 
-    public void sendGuestDetails(final JSONObject genericObj) {
+    public void sendGuestDetails(final JSONObject genericObj, final ResponseCallBack callBack) {
         StringRequest request = new StringRequest(Request.Method.POST, urlSendGuestDetails,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        callBack.gotRestaurantItems(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -82,6 +84,8 @@ public class NetworkController {
                 return params;
             }
         };
+
+        Log.d("dispatched", "Request dispatched!");
 
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
