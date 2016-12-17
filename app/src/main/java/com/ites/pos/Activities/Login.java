@@ -3,12 +3,16 @@ package com.ites.pos.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -67,7 +71,7 @@ public class Login extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             Toast.makeText(this, "Connection is not available! Check your connection and try again!", Toast.LENGTH_LONG).show();
         }
 
@@ -75,6 +79,14 @@ public class Login extends AppCompatActivity {
         passwd = (EditText) findViewById(R.id.passwd);
         lgn_btn = (Button) findViewById(R.id.login_btn);
         login_progress = findViewById(R.id.progressBar);
+
+        lgn_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissKeyboard(getParent());
+                attemptLogin();
+            }
+        });
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getBaseContext(), R.layout.login_spinner_item, userList);
 
@@ -87,9 +99,9 @@ public class Login extends AppCompatActivity {
 
                 // extract userID
                 Iterator<User> i = allUserList.iterator();
-                while (i.hasNext()){
+                while (i.hasNext()) {
                     User u = i.next();
-                    if(u.getUserName() == username){
+                    if (u.getUserName() == username) {
                         userId = u.getUserId();
                     }
                 }
@@ -103,15 +115,29 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
 
-        lgn_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                attemptLogin();
-            }
-        });
+        if (v != null
+                && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE)
+                && v instanceof EditText
+                && !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom())
+                dismissKeyboard(this);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static void dismissKeyboard(Activity activity) {
+        if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
     // back navigation button disabled
@@ -220,6 +246,11 @@ public class Login extends AppCompatActivity {
 
                 @Override
                 public void gotHouseAccList(String data) {
+
+                }
+
+                @Override
+                public void gotRestaurantItems(String data) {
 
                 }
             });
