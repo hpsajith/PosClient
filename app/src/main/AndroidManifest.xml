@@ -43,11 +43,17 @@
             android:label="@string/app_name"
             android:theme="@style/MaterialTheme" />
 
-        <!--Select restaurant and meal period-->
+        <!-- Select restaurant and meal period -->
         <activity
             android:name="com.ites.pos.Activities.LoginSuccess"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-        <!--Create New bill-->
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/MaterialTheme" />
+        <!-- Create New bill -->
+        <activity
+            android:name="com.ites.pos.Activities.ItemPunching"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/MaterialTheme" />
+
     </application>
 
 </manifest>
