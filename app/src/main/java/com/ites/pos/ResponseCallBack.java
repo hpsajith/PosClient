@@ -16,4 +16,6 @@ public interface ResponseCallBack {
     void gotReservationRoomList(String data);
 
     void gotHouseAccList(String data);
+
+    void gotRestaurantItems(String data);
 }
