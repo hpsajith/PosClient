@@ -8,31 +8,31 @@ import org.json.JSONObject;
  */
 
 public class ReservationRoom {
-    private String fName;//
+    private String fName;
     private String lName;
     private int guestNo;
-    private int confNo;//
+    private int confNo;
     private int guestStatus;
     private String roomNo;
-    private int noOfAdults;//
+    private int noOfAdults;
     private int noChild;
-    private String pakage;//
-    private int reservationNo;//
+    private String pakage;
+    private int reservationNo;
 
     public ReservationRoom() {
     }
 
     public ReservationRoom(JSONObject jObj) {
         try {
-            this.fName = jObj.get("fName").toString();
-            this.lName = jObj.get("lName").toString();
+            this.fName = jObj.get("fName").toString().trim();
+            this.lName = jObj.get("lName").toString().trim();
             this.guestNo = jObj.getInt("guestNo");
             this.confNo = jObj.getInt("confNo");
             this.guestStatus = jObj.getInt("guestStatus");
-            this.roomNo = jObj.get("roomNo").toString();
+            this.roomNo = jObj.get("roomNo").toString().trim();
             this.noOfAdults = jObj.getInt("noOfAdults");
             this.noChild = jObj.getInt("noChild");
-            this.pakage = jObj.get("pakage").toString();
+            this.pakage = jObj.get("pakage").toString().trim();
             this.reservationNo = jObj.getInt("reservationNo");
         } catch (JSONException ex) {
             ex.printStackTrace();

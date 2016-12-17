@@ -22,8 +22,8 @@ public class User {
 
     public User(JSONObject jObj){
         try {
-            this.userId = jObj.getString("userId");
-            this.userName = jObj.getString("userName");
+            this.userId = jObj.getString("userId").trim();
+            this.userName = jObj.getString("userName").trim();
             this.userType = jObj.getInt("userType");
             this.userStatus = jObj.getInt("active");
         } catch (JSONException e) {

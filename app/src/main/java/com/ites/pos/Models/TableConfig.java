@@ -31,13 +31,13 @@ public class TableConfig {
 
     public TableConfig(JSONObject jObj) {
         try {
-            this.configid = jObj.get("configid").toString();
-            this.restrauntId = jObj.get("restrauntId").toString();
-            this.room_Id = jObj.get("roomId").toString();
-            this.table_Id = jObj.get("tableId").toString();
-            this.tableName = jObj.get("tableName").toString();
-            this.roomName = jObj.get("restRoomName").toString();
-            this.tableStatus = (int)jObj.get("tableStatus");
+            this.configid = jObj.get("configid").toString().trim();
+            this.restrauntId = jObj.get("restrauntId").toString().trim();
+            this.room_Id = jObj.get("roomId").toString().trim();
+            this.table_Id = jObj.get("tableId").toString().trim();
+            this.tableName = jObj.get("tableName").toString().trim();
+            this.roomName = jObj.get("restRoomName").toString().trim();
+            this.tableStatus = jObj.getInt("tableStatus");
         } catch (JSONException ex) {
             ex.printStackTrace();
         }

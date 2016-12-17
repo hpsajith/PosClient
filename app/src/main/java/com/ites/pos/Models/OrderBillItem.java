@@ -43,19 +43,19 @@ public class OrderBillItem {
 
     public OrderBillItem(JSONObject jObj) {
         try {
-            this.tableNo = jObj.get("tableNo").toString();
-            this.tableName = jObj.get("tableName").toString();
-            this.guestNo = jObj.get("posGuestno").toString();
-            this.kotNo = jObj.get("kotNo").toString();
-            this.systemDate = jObj.get("systemDate").toString();
-            this.itemNo = jObj.get("itemNo").toString();
-            this.itemCode = jObj.get("itemCode").toString();
-            this.itemName = jObj.get("itemName").toString();
-            this.unitName = jObj.get("unitName").toString();
-            this.qty = jObj.get("qty").toString();
-            this.unitPrice = jObj.get("itemPrices").toString();
-            this.roomNo = jObj.get("roomNo").toString();
-            this.userName = jObj.get("userName").toString();
+            this.tableNo = jObj.get("tableNo").toString().trim();
+            this.tableName = jObj.get("tableName").toString().trim();
+            this.guestNo = jObj.get("posGuestno").toString().trim();
+            this.kotNo = jObj.get("kotNo").toString().trim();
+            this.systemDate = jObj.get("systemDate").toString().trim();
+            this.itemNo = jObj.get("itemNo").toString().trim();
+            this.itemCode = jObj.get("itemCode").toString().trim();
+            this.itemName = jObj.get("itemName").toString().trim();
+            this.unitName = jObj.get("unitName").toString().trim();
+            this.qty = jObj.get("qty").toString().trim();
+            this.unitPrice = jObj.get("itemPrices").toString().trim();
+            this.roomNo = jObj.get("roomNo").toString().trim();
+            this.userName = jObj.get("userName").toString().trim();
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
