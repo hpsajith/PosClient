@@ -173,6 +173,11 @@ public class MainActivity extends AppCompatActivity {
             public void gotHouseAccList(String data) {
                 houseAccList = data;
             }
+
+            @Override
+            public void gotRestaurantItems(String data) {
+
+            }
         });
 
         netCtrl.getReservationRoomList(new ResponseCallBack() {
@@ -203,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void gotHouseAccList(String data) {
+
+            }
+
+            @Override
+            public void gotRestaurantItems(String data) {
 
             }
         });
@@ -272,6 +282,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void gotHouseAccList(String data) {
+
+            }
+
+            @Override
+            public void gotRestaurantItems(String data) {
 
             }
 
