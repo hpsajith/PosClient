@@ -19,11 +19,11 @@ public class HouseAccount {
 
     public HouseAccount(JSONObject jObj) {
         try {
-            this.accountNo = (String) jObj.get("accountNo");
-            this.hAccountId = (int) jObj.get("haccountID");
-            this.status = (String) jObj.get("status");
-            this.employeeName = (String) jObj.get("employeeName");
-            this.employeeNo = (String) jObj.get("employeeNo");
+            this.accountNo = ((String) jObj.get("accountNo")).trim();
+            this.hAccountId = jObj.getInt("haccountID");
+            this.status = ((String) jObj.get("status")).trim();
+            this.employeeName = ((String) jObj.get("employeeName")).trim();
+            this.employeeNo = ((String) jObj.get("employeeNo")).trim();
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
