@@ -77,7 +77,7 @@ public class ManagerListAdapter extends RecyclerView.Adapter<ManagerListAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     v.setBackgroundColor(Color.parseColor("#55387ef4"));
-                    if (previousTouchedView != null) {
+                    if ((previousTouchedView != null) && (previousTouchedView != v)) {
                         previousTouchedView.setBackgroundColor(Color.parseColor("#00ffffff"));
                     }
                     previousTouchedView = v;

@@ -14,6 +14,13 @@ public class RestaurantItem {
     private String masterName;
     private int itemCode;
     private String itemName;
+    private int mTaxClass;
+    private int dtaxClass;
+    private Double dUnitPrice;
+    private Double mUnitPrice;
+    private Double mTaxPrice;
+    private Double dTaxPrice;
+    private int currencyId;
 
     public RestaurantItem() {
     }
@@ -26,6 +33,13 @@ public class RestaurantItem {
             this.masterName = ((String)jObj.get("masterName")).trim();
             this.itemCode = jObj.getInt("itemCode");
             this.itemName = ((String) jObj.get("itemName")).trim();
+            this.mTaxClass = jObj.getInt("mTaxClass");
+            this.dtaxClass = jObj.getInt("dtaxClass");
+            this.dUnitPrice = jObj.getDouble("dUnitPrice");
+            this.mUnitPrice = jObj.getDouble("mUnitPrice");
+            this.mTaxPrice = jObj.getDouble("mTaxPrice");
+            this.dTaxPrice = jObj.getDouble("dTaxPrice");
+            this.currencyId = jObj.getInt("currencyId");
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -79,6 +93,62 @@ public class RestaurantItem {
         this.itemName = itemName;
     }
 
+    public int getmTaxClass() {
+        return mTaxClass;
+    }
+
+    public void setmTaxClass(int mTaxClass) {
+        this.mTaxClass = mTaxClass;
+    }
+
+    public int getDtaxClass() {
+        return dtaxClass;
+    }
+
+    public void setDtaxClass(int dtaxClass) {
+        this.dtaxClass = dtaxClass;
+    }
+
+    public Double getdUnitPrice() {
+        return dUnitPrice;
+    }
+
+    public void setdUnitPrice(Double dUnitPrice) {
+        this.dUnitPrice = dUnitPrice;
+    }
+
+    public Double getmUnitPrice() {
+        return mUnitPrice;
+    }
+
+    public void setmUnitPrice(Double mUnitPrice) {
+        this.mUnitPrice = mUnitPrice;
+    }
+
+    public Double getmTaxPrice() {
+        return mTaxPrice;
+    }
+
+    public void setmTaxPrice(Double mTaxPrice) {
+        this.mTaxPrice = mTaxPrice;
+    }
+
+    public Double getdTaxPrice() {
+        return dTaxPrice;
+    }
+
+    public void setdTaxPrice(Double dTaxPrice) {
+        this.dTaxPrice = dTaxPrice;
+    }
+
+    public int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
+    }
+
     // convert java bean to JSON object
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
@@ -89,6 +159,13 @@ public class RestaurantItem {
             obj.put("masterName", masterName);
             obj.put("itemCode", itemCode);
             obj.put("itemName", itemName);
+            obj.put("mTaxClass", mTaxClass);
+            obj.put("dtaxClass", dtaxClass);
+            obj.put("dUnitPrice", dUnitPrice);
+            obj.put("mUnitPrice", mUnitPrice);
+            obj.put("mTaxPrice", mTaxPrice);
+            obj.put("dTaxPrice", dTaxPrice);
+            obj.put("currencyId", currencyId);
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -109,6 +186,13 @@ public class RestaurantItem {
                 ", masterName='" + masterName + '\'' +
                 ", itemCode=" + itemCode +
                 ", itemName='" + itemName + '\'' +
+                ", mTaxClass=" + mTaxClass +
+                ", dtaxClass=" + dtaxClass +
+                ", dUnitPrice=" + dUnitPrice +
+                ", mUnitPrice=" + mUnitPrice +
+                ", mTaxPrice=" + mTaxPrice +
+                ", dTaxPrice=" + dTaxPrice +
+                ", currencyId=" + currencyId +
                 '}';
     }
 }

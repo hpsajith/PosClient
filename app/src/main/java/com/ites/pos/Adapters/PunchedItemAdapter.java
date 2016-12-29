@@ -2,6 +2,7 @@ package com.ites.pos.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 12/19/16.
+ * Created by wannix on 12/19/16.
  */
 
 public class PunchedItemAdapter extends ArrayAdapter<Item> {
@@ -40,7 +41,9 @@ public class PunchedItemAdapter extends ArrayAdapter<Item> {
 
         Item item = items.get(position);
 
+
         if (item != null) {
+
             TextView itemName = (TextView) v.findViewById(R.id.itemName);
             TextView itemQty = (TextView) v.findViewById(R.id.itemQty);
             TextView itemPrice = (TextView) v.findViewById(R.id.itemPrice);
@@ -50,13 +53,15 @@ public class PunchedItemAdapter extends ArrayAdapter<Item> {
                 itemName.setText(item.getItemName());
             }
             if (itemQty != null) {
-                itemQty.setText(item.getQty());
+                itemQty.setText(item.getQty() + "");
             }
             if (itemPrice != null) {
-                itemPrice.setText(item.getItemPrice()+"");
+                double unitPrice = Math.round(item.getTaxPrice()*100)/100.00;
+                itemPrice.setText(unitPrice + "");
             }
             if (itemName != null) {
-                itemTaxPrice.setText(item.getTaxPrice()+"");
+                double netVal = Math.round(item.getTaxPrice()*item.getQty()*100)/100.00;
+                itemTaxPrice.setText(netVal + "");
             }
         }
 

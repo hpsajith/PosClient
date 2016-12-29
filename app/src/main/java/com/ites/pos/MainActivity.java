@@ -1,5 +1,7 @@
 package com.ites.pos;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,17 +15,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ites.pos.Activities.PosSplash;
 import com.ites.pos.Activities.fragments.RoomFragment;
+import com.ites.pos.Interfaces.SAMs.HouseAccList;
+import com.ites.pos.Interfaces.SAMs.ReservationRoomList;
+import com.ites.pos.Interfaces.SAMs.TableConfigs;
 import com.ites.pos.Models.TableConfig;
 import com.ites.pos.main_activity.R;
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         loading = (ProgressBar) findViewById(R.id.tableLoadingProgress);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(session.getString("restaurantName", "Restaurant Name"));
-        toolbar.setNavigationIcon(R.drawable.ic_dehaze_white_36dp);
+        toolbar.setNavigationIcon(R.drawable.ic_nav_toggle_white_32dp);
         setSupportActionBar(toolbar);
         final DrawerLayout navDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -143,81 +148,21 @@ public class MainActivity extends AppCompatActivity {
 
         final List<TableConfig> configs = new ArrayList<>();
 
-        netCtrl.getHouseAccListList(new ResponseCallBack() {
-            @Override
-            public void gotAllUsers(String data) {
-
-            }
-
-            @Override
-            public void gotUserAuth(String data) {
-
-            }
-
-            @Override
-            public void gotTableConfigs(String data) {
-
-            }
-
-            @Override
-            public void gotOpenTableDetails(String data) {
-
-            }
-
-            @Override
-            public void gotReservationRoomList(String data) {
-
-            }
-
+        netCtrl.getHouseAccListList(new HouseAccList() {
             @Override
             public void gotHouseAccList(String data) {
                 houseAccList = data;
             }
-
-            @Override
-            public void gotRestaurantItems(String data) {
-
-            }
         });
 
-        netCtrl.getReservationRoomList(new ResponseCallBack() {
-            @Override
-            public void gotAllUsers(String data) {
-
-            }
-
-            @Override
-            public void gotUserAuth(String data) {
-
-            }
-
-            @Override
-            public void gotTableConfigs(String data) {
-
-            }
-
-            @Override
-            public void gotOpenTableDetails(String data) {
-
-            }
-
+        netCtrl.getReservationRoomList(new ReservationRoomList() {
             @Override
             public void gotReservationRoomList(String data) {
                 reservRoomList = data;
             }
-
-            @Override
-            public void gotHouseAccList(String data) {
-
-            }
-
-            @Override
-            public void gotRestaurantItems(String data) {
-
-            }
         });
 
-        netCtrl.getAllTableConfigs(restID, new ResponseCallBack() {
+        netCtrl.getAllTableConfigs(restID, new TableConfigs() {
             @Override
             public void gotTableConfigs(String responseStr) {
                 // set progressbar invisible
@@ -270,36 +215,33 @@ public class MainActivity extends AppCompatActivity {
 
                 netCtrl.clearRequestQueue();
             }
-
-            @Override
-            public void gotOpenTableDetails(String data) {
-            }
-
-            @Override
-            public void gotReservationRoomList(String data) {
-
-            }
-
-            @Override
-            public void gotHouseAccList(String data) {
-
-            }
-
-            @Override
-            public void gotRestaurantItems(String data) {
-
-            }
-
-            @Override
-            public void gotAllUsers(String data) {
-
-            }
-
-            @Override
-            public void gotUserAuth(String data) {
-
-            }
         });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+
+        if (v != null
+                && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE)
+                && v instanceof EditText
+                && !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom())
+                dismissKeyboard(this);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static void dismissKeyboard(Activity activity) {
+        if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
     // back navigation button disabled

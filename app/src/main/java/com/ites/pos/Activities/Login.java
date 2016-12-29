@@ -17,14 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ites.pos.Models.User;
 import com.ites.pos.NetworkController;
-import com.ites.pos.ResponseCallBack;
 import com.ites.pos.main_activity.R;
 
 import org.json.JSONArray;
@@ -35,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Created by Itess001 on 10/12/2016.
+ * Created by wannix on 10/12/2016.
  */
 
 public class Login extends AppCompatActivity {
@@ -197,12 +195,7 @@ public class Login extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             NetworkController ntCtrl = new NetworkController(getApplicationContext());
-            ntCtrl.authenticateUser(username, password, new ResponseCallBack() {
-                @Override
-                public void gotAllUsers(String data) {
-
-                }
-
+            ntCtrl.authenticateUser(username, password, new com.ites.pos.Interfaces.SAMs.UserAuth() {
                 @Override
                 public void gotUserAuth(String data) {
                     try {
@@ -227,31 +220,6 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Wrong password! Try again!", Toast.LENGTH_SHORT).show();
                         showProgress(false);
                     }
-                }
-
-                @Override
-                public void gotTableConfigs(String data) {
-
-                }
-
-                @Override
-                public void gotOpenTableDetails(String data) {
-
-                }
-
-                @Override
-                public void gotReservationRoomList(String data) {
-
-                }
-
-                @Override
-                public void gotHouseAccList(String data) {
-
-                }
-
-                @Override
-                public void gotRestaurantItems(String data) {
-
                 }
             });
 

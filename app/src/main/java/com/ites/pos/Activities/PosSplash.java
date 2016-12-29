@@ -4,19 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.ites.pos.Interfaces.SAMs.AllUsers;
 import com.ites.pos.NetworkController;
-import com.ites.pos.ResponseCallBack;
 import com.ites.pos.main_activity.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by Itess001 on 10/12/2016.
+ * Created by wannix on 10/12/2016.
  */
 
 public class PosSplash extends AppCompatActivity {
@@ -33,40 +29,10 @@ public class PosSplash extends AppCompatActivity {
         setContentView(R.layout.activity_pos_splash);
 
         NetworkController ntCtrl = new NetworkController(getApplicationContext());
-        ntCtrl.getAllUsers(new ResponseCallBack() {
+        ntCtrl.getAllUsers(new AllUsers() {
             @Override
             public void gotAllUsers(String data) {
                 allUsersRespStr = data;
-            }
-
-            @Override
-            public void gotUserAuth(String data) {
-
-            }
-
-            @Override
-            public void gotTableConfigs(String data) {
-
-            }
-
-            @Override
-            public void gotOpenTableDetails(String data) {
-
-            }
-
-            @Override
-            public void gotReservationRoomList(String data) {
-
-            }
-
-            @Override
-            public void gotHouseAccList(String data) {
-
-            }
-
-            @Override
-            public void gotRestaurantItems(String data) {
-
             }
         });
 

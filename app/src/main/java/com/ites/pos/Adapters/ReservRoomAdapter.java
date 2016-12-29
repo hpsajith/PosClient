@@ -50,9 +50,8 @@ public class ReservRoomAdapter extends RecyclerView.Adapter<ReservRoomAdapter.Re
 
     @Override
     public void onBindViewHolder(ReservRoomViewHolder holder, int position) {
-        holder.confNo.setText(reservationRoomList.get(position).getConfNo() + "");
         holder.fName.setText(reservationRoomList.get(position).getfName() + "");
-        holder.reservationNo.setText(reservationRoomList.get(position).getReservationNo() + "");
+        holder.comments.setText("N/A");
         holder.roomNo.setText(reservationRoomList.get(position).getRoomNo() + "");
         holder.pakage.setText(reservationRoomList.get(position).getPakage() + "");
         holder.bind(reservationRoomList.get(position));
@@ -68,16 +67,15 @@ public class ReservRoomAdapter extends RecyclerView.Adapter<ReservRoomAdapter.Re
     }
 
     static class ReservRoomViewHolder extends RecyclerView.ViewHolder {
-        private TextView fName, confNo, roomNo, pakage, reservationNo;
+        private TextView fName, roomNo, pakage, comments;
 
         public ReservRoomViewHolder(View itemView) {
             super(itemView);
 
             fName = (TextView) itemView.findViewById(R.id.fName);
-            confNo = (TextView) itemView.findViewById(R.id.confNo);
             roomNo = (TextView) itemView.findViewById(R.id.roomNo);
             pakage = (TextView) itemView.findViewById(R.id.pakage);
-            reservationNo = (TextView) itemView.findViewById(R.id.reservationNo);
+            comments = (TextView) itemView.findViewById(R.id.comments);
         }
 
         public void bind(final ReservationRoom item) {
@@ -85,7 +83,7 @@ public class ReservRoomAdapter extends RecyclerView.Adapter<ReservRoomAdapter.Re
                 @Override
                 public void onClick(View v) {
                     v.setBackgroundColor(Color.parseColor("#55387ef4"));
-                    if (previousTouchedView != null) {
+                    if ((previousTouchedView != null) && (previousTouchedView != v)) {
                         previousTouchedView.setBackgroundColor(Color.parseColor("#00ffffff"));
                     }
                     previousTouchedView = v;

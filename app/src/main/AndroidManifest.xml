@@ -33,13 +33,7 @@
         <activity
             android:name="com.ites.pos.Activities.Login"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/MaterialTheme" />
-
-        <!-- Main activity -->
-        <activity
-            android:name="com.ites.pos.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:label="@string/app_name"
             android:theme="@style/MaterialTheme" />
 
@@ -48,12 +42,21 @@
             android:name="com.ites.pos.Activities.LoginSuccess"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/MaterialTheme" />
+
+        <!-- Main activity -->
+        <activity
+            android:name="com.ites.pos.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:label="@string/app_name"
+            android:theme="@style/MaterialTheme" />
+
         <!-- Create New bill -->
         <activity
             android:name="com.ites.pos.Activities.ItemPunching"
+            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:theme="@style/MaterialTheme" />
-
     </application>
-
 </manifest>

@@ -18,16 +18,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ites.pos.Activities.ItemPunching;
-import com.ites.pos.GuestFragmentType;
-import com.ites.pos.ManagerListAdapter;
+import com.ites.pos.Adapters.ManagerListAdapter;
+import com.ites.pos.Adapters.ReservRoomAdapter;
+import com.ites.pos.Interfaces.GuestFragmentType;
+import com.ites.pos.Interfaces.SAMs.RestaurantItems;
 import com.ites.pos.Models.HouseAccount;
 import com.ites.pos.Models.ReservationRoom;
 import com.ites.pos.NetworkController;
-import com.ites.pos.ReservRoomAdapter;
-import com.ites.pos.ResponseCallBack;
 import com.ites.pos.main_activity.R;
 
 import org.json.JSONArray;
@@ -45,9 +44,9 @@ public class SelectGuestFragment extends Fragment {
     private static final String SNACK_TEXT_COLOR = "#387ef4";
 
     private int fragmentType;
-    private String restaurantId, waiterId, mealId, restRoomId, tableId;
+    private String restaurantId, waiterId, waiterName, mealId, restRoomId, tableId, tableName;
     private RecyclerView.Adapter adapter;
-    private Button basicBtn, complBtn, extraBtn, cntBtn;
+    private Button cntBtn;
     private NumberPicker adultCount, kidsCount;
 
     public SelectGuestFragment() {
@@ -67,6 +66,7 @@ public class SelectGuestFragment extends Fragment {
 
         SharedPreferences session = getContext().getSharedPreferences("session", 0);
         waiterId = session.getString("userId", "0");
+        waiterName = session.getString("username", "Unknown");
         mealId = session.getString("mealId", "0");
         restaurantId = session.getString("restaurantId", "0");
 
@@ -76,9 +76,6 @@ public class SelectGuestFragment extends Fragment {
         kidsCount = (NumberPicker) fragmentView.findViewById(R.id.childrenCount);
         LinearLayout roomListViewHeader = (LinearLayout) fragmentView.findViewById(R.id.reservRoomList);
         LinearLayout managerListViewHeader = (LinearLayout) fragmentView.findViewById(R.id.managerList);
-        basicBtn = (Button) fragmentView.findViewById(R.id.basicBtn);
-        complBtn = (Button) fragmentView.findViewById(R.id.complementaryBtn);
-        extraBtn = (Button) fragmentView.findViewById(R.id.extraBtn);
         cntBtn = (Button) fragmentView.findViewById(R.id.cntBtn);
 
         final NetworkController netCtrl = new NetworkController(getContext());
@@ -92,41 +89,13 @@ public class SelectGuestFragment extends Fragment {
                     cntBtn.setBackgroundColor(Color.GRAY);
 
                     // network call
-                    netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new ResponseCallBack() {
-                        @Override
-                        public void gotAllUsers(String data) {
-
-                        }
-
-                        @Override
-                        public void gotUserAuth(String data) {
-
-                        }
-
-                        @Override
-                        public void gotTableConfigs(String data) {
-
-                        }
-
-                        @Override
-                        public void gotOpenTableDetails(String data) {
-
-                        }
-
-                        @Override
-                        public void gotReservationRoomList(String data) {
-
-                        }
-
-                        @Override
-                        public void gotHouseAccList(String data) {
-
-                        }
-
+                    netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new RestaurantItems() {
                         @Override
                         public void gotRestaurantItems(String data) {
                             // redirect to itemPunching
                             Intent nxt = new Intent(getContext(), ItemPunching.class);
+                            String genericObj = getGenericObject(getSelectedItem()) + "";
+                            nxt.putExtra("genericObj", genericObj);
                             nxt.putExtra("restaurantItems", data);
                             startActivity(nxt);
                             getActivity().finish();
@@ -136,38 +105,19 @@ public class SelectGuestFragment extends Fragment {
                     // notification
                     Snackbar snackbar = Snackbar.make(fragmentView, "Guest Details sent!", Snackbar.LENGTH_SHORT);
                     TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.parseColor(SNACK_TEXT_COLOR));
+//                    tv.setTextColor(Color.parseColor(SNACK_TEXT_COLOR));
                     if (Build.VERSION.SDK_INT >= 17) {
-                        snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     } else {
                         tv.setGravity(Gravity.CENTER);
                     }
                     snackbar.show();
 
-                } else if (fragmentType == GuestFragmentType.MANAGER_LIST) {
-                    proceedButtonClick(netCtrl, fragmentView, "You haven't set a Manager House Account!");
+                } else if (fragmentType == GuestFragmentType.ROOM_LIST) {
+                    proceedButtonClick(netCtrl, fragmentView, "You haven't select a Reservation Room!");
+                }else if (fragmentType == GuestFragmentType.MANAGER_LIST) {
+                    proceedButtonClick(netCtrl, fragmentView, "You haven't select a Manager House Account!");
                 }
-            }
-        });
-
-        basicBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                proceedButtonClick(netCtrl, fragmentView, "You haven't selected a Reservation Room!");
-            }
-        });
-
-        complBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                proceedButtonClick(netCtrl, fragmentView, "You haven't selected a Reservation Room!");
-            }
-        });
-
-        extraBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                proceedButtonClick(netCtrl, fragmentView, "You haven't selected a Reservation Room!");
             }
         });
 
@@ -176,12 +126,6 @@ public class SelectGuestFragment extends Fragment {
                 // set header views
                 roomListViewHeader.setVisibility(View.VISIBLE);
                 managerListViewHeader.setVisibility(View.GONE);
-
-                // set buttons
-                basicBtn.setVisibility(View.VISIBLE);
-                complBtn.setVisibility(View.VISIBLE);
-                extraBtn.setVisibility(View.VISIBLE);
-                cntBtn.setVisibility(View.GONE);
 
                 JSONArray roomList = new JSONArray(callbackData.getString("roomList"));
                 for (int i = 0; i < roomList.length(); i++) {
@@ -193,12 +137,6 @@ public class SelectGuestFragment extends Fragment {
                 roomListViewHeader.setVisibility(View.GONE);
                 managerListViewHeader.setVisibility(View.VISIBLE);
 
-                // set buttons
-                basicBtn.setVisibility(View.GONE);
-                complBtn.setVisibility(View.GONE);
-                extraBtn.setVisibility(View.GONE);
-                cntBtn.setVisibility(View.VISIBLE);
-
                 JSONArray mgrList = new JSONArray(callbackData.getString("managerList"));
                 for (int i = 0; i < mgrList.length(); i++) {
                     houseAccountsList.add(new HouseAccount(mgrList.getJSONObject(i)));
@@ -207,12 +145,6 @@ public class SelectGuestFragment extends Fragment {
                 // hide headers
                 roomListViewHeader.setVisibility(View.INVISIBLE);
                 managerListViewHeader.setVisibility(View.GONE);
-
-                // set buttons
-                basicBtn.setVisibility(View.GONE);
-                complBtn.setVisibility(View.GONE);
-                extraBtn.setVisibility(View.GONE);
-                cntBtn.setVisibility(View.VISIBLE);
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
@@ -248,54 +180,17 @@ public class SelectGuestFragment extends Fragment {
     private void proceedButtonClick(NetworkController netCtrl, View fragmentView, String msg) {
         if (getSelectedItem() != null) {
             // make sure that button action is synchronized
-            if(fragmentType == GuestFragmentType.MANAGER_LIST){
-                cntBtn.setEnabled(false);
-                cntBtn.setBackgroundColor(Color.GRAY);
-            }else if(fragmentType == GuestFragmentType.ROOM_LIST){
-                basicBtn.setEnabled(false);
-                basicBtn.setBackgroundColor(Color.GRAY);
-                complBtn.setEnabled(false);
-                complBtn.setBackgroundColor(Color.GRAY);
-                extraBtn.setEnabled(false);
-                extraBtn.setBackgroundColor(Color.GRAY);
-            }
+            cntBtn.setEnabled(false);
+            cntBtn.setBackgroundColor(Color.GRAY);
 
             // network call
-            netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new ResponseCallBack() {
-                @Override
-                public void gotAllUsers(String data) {
-
-                }
-
-                @Override
-                public void gotUserAuth(String data) {
-
-                }
-
-                @Override
-                public void gotTableConfigs(String data) {
-
-                }
-
-                @Override
-                public void gotOpenTableDetails(String data) {
-
-                }
-
-                @Override
-                public void gotReservationRoomList(String data) {
-
-                }
-
-                @Override
-                public void gotHouseAccList(String data) {
-
-                }
-
+            netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new RestaurantItems() {
                 @Override
                 public void gotRestaurantItems(String data) {
                     // redirect to itemPunching
                     Intent nxt = new Intent(getContext(), ItemPunching.class);
+                    String genericObj = getGenericObject(getSelectedItem()) + "";
+                    nxt.putExtra("genericObj", genericObj);
                     nxt.putExtra("restaurantItems", data);
                     startActivity(nxt);
                     getActivity().finish();
@@ -305,17 +200,13 @@ public class SelectGuestFragment extends Fragment {
             // notification
             Snackbar snackbar = Snackbar.make(fragmentView, "Guest Details sent!", Snackbar.LENGTH_SHORT);
             TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(Color.parseColor(SNACK_TEXT_COLOR));
+//            tv.setTextColor(Color.parseColor(SNACK_TEXT_COLOR));
             if (Build.VERSION.SDK_INT >= 17) {
-                snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             } else {
                 tv.setGravity(Gravity.CENTER);
             }
             snackbar.show();
-
-            // redirect to itemPunching
-
-
         } else {
             // validation failed notification
             Snackbar snackbar = Snackbar.make(fragmentView, msg, Snackbar.LENGTH_SHORT);
@@ -331,11 +222,14 @@ public class SelectGuestFragment extends Fragment {
     private JSONObject getGenericObject(Object selected) {
         JSONObject genericObj = new JSONObject();
         try {
+            genericObj.put("guestType", fragmentType);
             genericObj.put("restaurantId", restaurantId);
             genericObj.put("waiterId", waiterId);
+            genericObj.put("waiterName", waiterName);
             genericObj.put("mealId", mealId);
             genericObj.put("roomId", restRoomId);
             genericObj.put("tableId", tableId);
+            genericObj.put("tableName", tableName);
             genericObj.put("guestFname", ((selected != null) && (fragmentType == GuestFragmentType.ROOM_LIST)) ? ((ReservationRoom) selected).getfName() : "");
             genericObj.put("guestLname", ((selected != null) && (fragmentType == GuestFragmentType.ROOM_LIST)) ? ((ReservationRoom) selected).getlName() : "");
             genericObj.put("adultsCount", adultCount.getValue());
@@ -344,6 +238,7 @@ public class SelectGuestFragment extends Fragment {
             genericObj.put("reservRoomNo", ((selected != null) && (fragmentType == GuestFragmentType.ROOM_LIST)) ? ((ReservationRoom) selected).getRoomNo() : "");
             genericObj.put("foodPackage", ((selected != null) && (fragmentType == GuestFragmentType.ROOM_LIST)) ? ((ReservationRoom) selected).getPakage() : "");
             genericObj.put("hAccountId", ((selected != null) && (fragmentType == GuestFragmentType.MANAGER_LIST)) ? ((HouseAccount) selected).gethAccountId() : "0");
+            genericObj.put("hAccountName", ((selected != null) && (fragmentType == GuestFragmentType.MANAGER_LIST)) ? ((HouseAccount) selected).getEmployeeName() : "");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -355,6 +250,7 @@ public class SelectGuestFragment extends Fragment {
         this.fragmentType = fragmentType;
         this.restRoomId = tableSignatures[0];
         this.tableId = tableSignatures[1];
+        this.tableName = tableSignatures[2];
     }
 
     public Object getSelectedItem() {

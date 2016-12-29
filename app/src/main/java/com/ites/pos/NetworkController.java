@@ -1,23 +1,23 @@
 package com.ites.pos;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.ites.pos.Activities.Login;
-import com.ites.pos.Activities.LoginSuccess;
-import com.ites.pos.Models.ReservationRoom;
+import com.ites.pos.Interfaces.SAMs.AllUsers;
+import com.ites.pos.Interfaces.SAMs.HouseAccList;
+import com.ites.pos.Interfaces.SAMs.OpenTableDetails;
+import com.ites.pos.Interfaces.SAMs.ReservationRoomList;
+import com.ites.pos.Interfaces.SAMs.RestaurantItems;
+import com.ites.pos.Interfaces.SAMs.TableConfigs;
+import com.ites.pos.Interfaces.SAMs.UserAuth;
+import com.ites.pos.Models.Item;
+import com.ites.pos.Models.OrderDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,26 +36,64 @@ public class NetworkController {
     private Context ctx;
 
     // Webservice URL endpoints
-//    final String urlGetUsers = "http://10.1.1.66:8084/UserController/getAllUsers";
-        final String urlGetUsers = "http://192.168.43.178:8080/UserController/getAllUsers";
-//    final String urlAuthUser = "http://10.1.1.66:8084/UserController/validateLoginUser";
-        final String urlAuthUser = "http://192.168.43.178:8080/UserController/validateLoginUser";
-//    final String urlGetTableConfigs = "http://10.1.1.66:8084/TableController/getAllTables";
-        final private String urlGetTableConfigs = "http://192.168.43.178:8080/TableController/getAllTables";
-//    final String urlGetOpenTables = "http://10.1.1.66:8084/TableController/getOpenTableDetail";
-        final private String urlGetOpenTables = "http://192.168.43.178:8080/TableController/getOpenTableDetail";
-//    final String urlGetReservationRoomList = "http://10.1.1.66:8084/ReservationController/getReservationRooms";
-    final String urlGetReservationRoomList = "http://192.168.43.178:8080/ReservationController/getReservationRooms";
-//    final String urlGetHouseAccList = "http://10.1.1.66:8084/ReservationController/getHouseAccList";
-    final String urlGetHouseAccList = "http://192.168.43.178:8080/ReservationController/getHouseAccList";
-//    final String urlSendGuestDetails = "http://10.1.1.66:8084/GuestController/setPosGuestDetails";
-    final String urlSendGuestDetails = "http://192.168.43.178:8080/GuestController/setPosGuestDetails";
+    final String urlGetUsers = "http://10.1.1.66:8084/UserController/getAllUsers";
+    //        final String urlGetUsers = "http://192.168.43.178:8080/UserController/getAllUsers";
+    final String urlAuthUser = "http://10.1.1.66:8084/UserController/validateLoginUser";
+    //        final String urlAuthUser = "http://192.168.43.178:8080/UserController/validateLoginUser";
+    final String urlGetTableConfigs = "http://10.1.1.66:8084/TableController/getAllTables";
+    //        final private String urlGetTableConfigs = "http://192.168.43.178:8080/TableController/getAllTables";
+    final String urlGetOpenTables = "http://10.1.1.66:8084/TableController/getOpenTableDetail";
+    //        final private String urlGetOpenTables = "http://192.168.43.178:8080/TableController/getOpenTableDetail";
+    final String urlGetReservationRoomList = "http://10.1.1.66:8084/ReservationController/getReservationRooms";
+    //    final String urlGetReservationRoomList = "http://192.168.43.178:8080/ReservationController/getReservationRooms";
+    final String urlGetHouseAccList = "http://10.1.1.66:8084/ReservationController/getHouseAccList";
+    //    final String urlGetHouseAccList = "http://192.168.43.178:8080/ReservationController/getHouseAccList";
+    final String urlSendGuestDetails = "http://10.1.1.66:8084/GuestController/setPosGuestDetails";
+    //    final String urlSendGuestDetails = "http://192.168.43.178:8080/GuestController/setPosGuestDetails";
+    final String urlPlaceOrder = "http://10.1.1.66:8084/OrderController/setNewOrderedItemList";
 
     public NetworkController(Context ctx) {
         this.ctx = ctx;
     }
 
-    public void sendGuestDetails(final JSONObject genericObj, final ResponseCallBack callBack) {
+    public void placeGuestOrder(final List<Item> billItems, final OrderDetails orderDetails) {
+        StringRequest request = new StringRequest(Request.Method.POST, urlPlaceOrder,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        callBack.gotResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Volley Debug", "Error: " + error);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Iterator<Item> i = billItems.iterator();
+                JSONArray itemBucket = new JSONArray();
+
+                while (i.hasNext()) {
+                    JSONObject item = i.next().toJSONObject();
+                    itemBucket.put(item);
+                }
+
+                JSONObject orderDetailsJson = orderDetails.toJSONObject();
+
+                params.put("orderDetails", orderDetailsJson.toString());
+                params.put("itemBucket", itemBucket.toString());
+
+                return params;
+            }
+        };
+
+        AppSingleton.getInstance(ctx).addToRequestQueue(request);
+    }
+
+    public void sendGuestDetails(final JSONObject genericObj, final RestaurantItems callBack) {
         StringRequest request = new StringRequest(Request.Method.POST, urlSendGuestDetails,
                 new Response.Listener<String>() {
                     @Override
@@ -85,12 +124,10 @@ public class NetworkController {
             }
         };
 
-        Log.d("dispatched", "Request dispatched!");
-
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
-    public void getReservationRoomList(final ResponseCallBack callBack) {
+    public void getReservationRoomList(final ReservationRoomList callBack) {
 
         JsonArrayRequest request = new JsonArrayRequest(urlGetReservationRoomList,
                 new Response.Listener<JSONArray>() {
@@ -109,7 +146,7 @@ public class NetworkController {
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
-    public void getHouseAccListList(final ResponseCallBack callBack) {
+    public void getHouseAccListList(final HouseAccList callBack) {
 
         JsonArrayRequest request = new JsonArrayRequest(urlGetHouseAccList,
                 new Response.Listener<JSONArray>() {
@@ -128,7 +165,7 @@ public class NetworkController {
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
-    public void getAllUsers(final ResponseCallBack callBack) {
+    public void getAllUsers(final AllUsers callBack) {
 
         JsonArrayRequest request = new JsonArrayRequest(urlGetUsers,
                 new Response.Listener<JSONArray>() {
@@ -147,7 +184,7 @@ public class NetworkController {
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
-    public void authenticateUser(String username, String password, final ResponseCallBack callBack) {
+    public void authenticateUser(String username, String password, final UserAuth callBack) {
         String urlAuth = urlAuthUser + "?username=" + username + "&password=" + password;
 
         JsonArrayRequest request = new JsonArrayRequest(urlAuth,
@@ -167,7 +204,7 @@ public class NetworkController {
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
-    public void getOpenTableDetails(String tableId, final ResponseCallBack callBack) {
+    public void getOpenTableDetails(String tableId, final OpenTableDetails callBack) {
         String url = urlGetOpenTables + "?id=" + tableId;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -187,7 +224,7 @@ public class NetworkController {
         AppSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
-    public void getAllTableConfigs(String restId, final ResponseCallBack callback) {
+    public void getAllTableConfigs(String restId, final TableConfigs callback) {
         String url = urlGetTableConfigs + "?id=" + restId;
 
         final JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
