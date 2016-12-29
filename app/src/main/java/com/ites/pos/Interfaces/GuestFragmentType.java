@@ -1,4 +1,4 @@
-package com.ites.pos;
+package com.ites.pos.Interfaces;
 
 /**
  * Created by wannix on 12/5/16.

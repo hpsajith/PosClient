@@ -1,4 +1,4 @@
-package com.ites.pos;
+package com.ites.pos.CustomComponents;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

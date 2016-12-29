@@ -1,4 +1,4 @@
-package com.ites.pos;
+package com.ites.pos.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
