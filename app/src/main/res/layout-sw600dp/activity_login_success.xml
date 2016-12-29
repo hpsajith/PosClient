@@ -13,65 +13,66 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/flash_bg"
+        app:srcCompat="@drawable/splash_bg"
         android:contentDescription="@string/background_image" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/login_content_layout"
-        android:gravity="center_vertical"
+        android:background="#55ffffff"
         android:orientation="vertical"
-        android:padding="25dp"
-        android:weightSum="1">
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/login_success_hint"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:layout_gravity="center" />
+            android:layout_height="wrap_content">
 
-        <Spinner
-            android:id="@+id/select_restaurant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#aaffffff"
-            android:elevation="5dp"
-            android:padding="8dp"
-            android:paddingLeft="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp" />
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/login_success_hint"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:layout_marginBottom="10dp" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/select_meal"
-            android:background="#aaffffff"
-            android:elevation="5dp"
-            android:padding="8dp"
-            android:paddingLeft="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp"/>
+            <Spinner
+                android:id="@+id/select_restaurant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#aaffffff"
+                android:elevation="5dp"
+                android:layout_margin="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
 
-        <Button
-            android:id="@+id/select_rest_done"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:layout_marginTop="31dp"
-            android:background="@drawable/button"
-            android:elevation="10dp"
-            android:text="@string/continue_btn_txt"
-            android:textColor="@android:color/white" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/select_meal"
+                android:background="#aaffffff"
+                android:elevation="5dp"
+                android:layout_margin="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <Button
+                android:id="@+id/select_rest_done"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                android:elevation="10dp"
+                android:text="@string/continue_btn_txt"
+                android:textColor="@android:color/white"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

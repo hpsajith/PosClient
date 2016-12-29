@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
 android:layout_height="match_parent">
 
 <android.support.design.widget.AppBarLayout
@@ -12,15 +13,14 @@ android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
         android:background="?attr/colorPrimary"
         android:elevation="5dp"
         android:minHeight="0dp"
         app:collapseIcon="?attr/dividerVertical"
-        app:layout_scrollFlags="scroll|snap"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="Restaurant Name"
-        app:titleTextAppearance="@style/toolbarTitleTextCustomSW360dp" />
+        app:titleTextAppearance="@style/toolbarTitleTextCustomSW800dp"
+        android:layout_height="40dp" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
@@ -32,9 +32,17 @@ android:layout_height="match_parent">
         app:tabTextAppearance="@style/tabLayoutTextCustomSW800dp" />
 </android.support.design.widget.AppBarLayout>
 
-<android.support.v4.view.ViewPager
+<com.ites.pos.CustomComponents.NonSwipeableViewPager
     android:id="@+id/viewpager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
+        android:id="@+id/tableLoadingProgress"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center" />
 </android.support.design.widget.CoordinatorLayout>

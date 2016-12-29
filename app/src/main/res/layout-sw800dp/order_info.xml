@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="20dp">
+            android:paddingBottom="20dp"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/tableHeader"
@@ -38,14 +40,14 @@
                 android:id="@+id/closeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:background="#00FFFFFF"
                 android:elevation="5dp"
-                app:srcCompat="@drawable/ic_close_white_48dp"
-                android:paddingRight="10dp"
-                android:contentDescription="@string/close_button_des" />
+                app:srcCompat="@drawable/ic_close_black_32dp"
+                android:contentDescription="@string/close_button_des"
+                android:layout_alignTop="@+id/tableHeader"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="15dp" />
         </RelativeLayout>
 
         <LinearLayout

@@ -18,7 +18,7 @@
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tableName"
+        android:id="@+id/tableNameEdit"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
@@ -31,7 +31,7 @@
         app:srcCompat="?android:attr/actionModePasteDrawable"
         android:id="@+id/booked"
         android:visibility="gone"
-        android:layout_above="@+id/tableName"
+        android:layout_above="@+id/tableNameEdit"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -6,7 +6,7 @@
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="200dp"
+        android:columnWidth="150dp"
         android:gravity="center"
         android:horizontalSpacing="15dp"
         android:numColumns="auto_fit"

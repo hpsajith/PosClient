@@ -21,34 +21,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:id="@+id/popupHeader">
+            android:id="@+id/popupHeader"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tableHeader_selectGuest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:text=""
                 android:textAlignment="center"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="24sp"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp" />
 
             <ImageButton
                 android:id="@+id/closeBtn_selectGuest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:background="#00FFFFFF"
                 android:contentDescription="fef"
                 android:elevation="5dp"
-                android:paddingRight="10dp"
-                app:srcCompat="@drawable/ic_close_white_48dp" />
+                app:srcCompat="@drawable/ic_close_black_32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp" />
         </RelativeLayout>
 
         <LinearLayout

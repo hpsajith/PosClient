@@ -39,22 +39,13 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/reservationNo"
+        android:id="@+id/comments"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="reservationNo"
+        android:text="comments"
         android:textAlignment="center"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/confNo"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="confNo"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:layout_width="125dp" />
 </LinearLayout>

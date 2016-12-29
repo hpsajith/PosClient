@@ -13,13 +13,13 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/flash_bg"
+        app:srcCompat="@drawable/splash_bg"
         android:contentDescription="@string/background_image" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_content_layout"
+        android:background="#55ffffff"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/login_success_hint"
-                android:textColor="@android:color/black"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:paddingBottom="10dp"
