@@ -14,7 +14,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/flash_bg"
+        app:srcCompat="@drawable/splash_bg"
         android:contentDescription="@string/background_image" />
 
     <LinearLayout

@@ -5,19 +5,9 @@
     android:id="@+id/billItem"
     android:weightSum="3"
     android:layout_margin="5dp"
-    android:layout_width="350dp">
-
-    <TextView
-        android:text=""
-        android:layout_height="wrap_content"
-        android:id="@+id/itemQty"
-        android:layout_weight="1"
-        android:textStyle="normal|bold"
-        android:textSize="12sp"
-        android:textColor="@color/popUptxtcolorPrimary"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:layout_width="20dp" />
+    android:gravity="center"
+    android:layout_width="550dp"
+    android:paddingLeft="15dp">
 
     <TextView
         android:text=""
@@ -25,11 +15,23 @@
         android:id="@+id/itemName"
         android:layout_weight="1"
         android:textStyle="normal|bold"
-        android:textSize="12sp"
+        android:textSize="16sp"
+        android:textColor="@color/popUptxtcolorPrimary"
+        android:textAlignment="gravity"
+        android:gravity="left"
+        android:layout_width="350dp" />
+
+    <TextView
+        android:text=""
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemQty"
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textSize="16sp"
         android:textColor="@color/popUptxtcolorPrimary"
         android:textAlignment="center"
-        android:gravity="center"
-        android:layout_width="180dp" />
+        android:gravity="center" />
 
     <TextView
         android:text=""
@@ -37,9 +39,8 @@
         android:id="@+id/itemCost"
         android:layout_weight="1"
         android:textStyle="normal|bold"
-        android:textAlignment="center"
         android:textColor="@color/popUptxtcolorPrimary"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:layout_width="100dp" />
+        android:textSize="16sp"
+        android:layout_width="150dp"
+        android:gravity="right" />
 </LinearLayout>

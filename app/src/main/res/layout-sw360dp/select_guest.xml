@@ -43,7 +43,7 @@
                 android:background="#00FFFFFF"
                 android:contentDescription="fef"
                 android:elevation="5dp"
-                app:srcCompat="@drawable/ic_close_white_24dp"
+                app:srcCompat="@drawable/ic_close_black_24dp"
                 android:layout_alignTop="@+id/tableHeader_selectGuest"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
