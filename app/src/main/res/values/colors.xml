@@ -2,6 +2,10 @@
 <resources>
     <color name="colorPrimary">#387ef4</color>
     <color name="colorPrimaryDark">#3070dc</color>
+    <color name="infoColorPrimary">#40be1f</color>
+    <color name="infoColorDark">#FF308C18</color>
+    <color name="dangerColorPrimary">#FD4B42</color>
+    <color name="dangerColorDark">#FFB42C25</color>
     <color name="colorAccent">#ff5e99</color>
     <color name="textColorPrimary">#ffffff</color>
     <color name="windowBackground">#FFFFFF</color>
