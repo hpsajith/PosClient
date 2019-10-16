@@ -57,7 +57,8 @@
             android:id="@+id/amount"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:maxLength="2" />
 
         <Button
             android:text="Punch"

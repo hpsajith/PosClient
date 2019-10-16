@@ -19,26 +19,15 @@ public class OrderBillItem {
     private String unitName;
     private String qty;
     private String unitPrice;
+    private String taxPrice;
     private String roomNo;
     private String userName;
+    private String itemComment;
+    private Double itemPrices;
+    private int taxClass;
+    private int currencyId;
 
     public OrderBillItem() {
-    }
-
-    public OrderBillItem(String tableNo, String tableName, String guestNo, String kotNo, String systemDate, String itemNo, String itemCode, String itemName, String unitName, String qty, String unitPrice, String roomNo, String userName) {
-        this.tableNo = tableNo;
-        this.tableName = tableName;
-        this.guestNo = guestNo;
-        this.kotNo = kotNo;
-        this.systemDate = systemDate;
-        this.itemNo = itemNo;
-        this.itemCode = itemCode;
-        this.itemName = itemName;
-        this.unitName = unitName;
-        this.qty = qty;
-        this.unitPrice = unitPrice;
-        this.roomNo = roomNo;
-        this.userName = userName;
     }
 
     public OrderBillItem(JSONObject jObj) {
@@ -53,9 +42,14 @@ public class OrderBillItem {
             this.itemName = jObj.get("itemName").toString().trim();
             this.unitName = jObj.get("unitName").toString().trim();
             this.qty = jObj.get("qty").toString().trim();
-            this.unitPrice = jObj.get("itemPrices").toString().trim();
+            this.unitPrice = jObj.get("unitPrice").toString().trim();
+            this.taxPrice = jObj.get("itemPrices").toString().trim();
             this.roomNo = jObj.get("roomNo").toString().trim();
             this.userName = jObj.get("userName").toString().trim();
+            this.itemComment = jObj.getString("itemcomment").trim();
+            this.itemPrices = jObj.getDouble("itemPrices");
+            this.taxClass = jObj.getInt("taxClass");
+            this.currencyId = jObj.getInt("currencyId");
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -165,6 +159,46 @@ public class OrderBillItem {
         this.userName = userName;
     }
 
+    public String getTaxPrice() {
+        return taxPrice;
+    }
+
+    public void setTaxPrice(String taxPrice) {
+        this.taxPrice = taxPrice;
+    }
+
+    public String getItemComment() {
+        return itemComment;
+    }
+
+    public void setItemComment(String itemComment) {
+        this.itemComment = itemComment;
+    }
+
+    public Double getItemPrices() {
+        return itemPrices;
+    }
+
+    public void setItemPrices(Double itemPrices) {
+        this.itemPrices = itemPrices;
+    }
+
+    public int getTaxClass() {
+        return taxClass;
+    }
+
+    public void setTaxClass(int taxClass) {
+        this.taxClass = taxClass;
+    }
+
+    public int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
+    }
+
     // convert java bean to JSON object
     public JSONObject toJSONObject() {
 
@@ -180,9 +214,14 @@ public class OrderBillItem {
             obj.put("itemName", itemName);
             obj.put("unitName", unitName);
             obj.put("qty", qty);
-            obj.put("itemPrices", unitPrice);
+            obj.put("unitPrice", unitPrice);
+            obj.put("taxPrice", taxPrice);
             obj.put("roomNo", roomNo);
             obj.put("userName", userName);
+            obj.put("itemComment", itemComment);
+            obj.put("itemPrices", itemPrices);
+            obj.put("taxClass", taxClass);
+            obj.put("currencyId", currencyId);
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -196,7 +235,7 @@ public class OrderBillItem {
 
     @Override
     public String toString() {
-        return "OderBillItem{" +
+        return "OrderBillItem{" +
                 "tableNo='" + tableNo + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", guestNo='" + guestNo + '\'' +
@@ -207,9 +246,14 @@ public class OrderBillItem {
                 ", itemName='" + itemName + '\'' +
                 ", unitName='" + unitName + '\'' +
                 ", qty='" + qty + '\'' +
-                ", itemPrices='" + unitPrice + '\'' +
+                ", unitPrice='" + unitPrice + '\'' +
+                ", taxPrice='" + taxPrice + '\'' +
                 ", roomNo='" + roomNo + '\'' +
                 ", userName='" + userName + '\'' +
+                ", itemComment='" + itemComment + '\'' +
+                ", itemPrices=" + itemPrices +
+                ", taxClass=" + taxClass +
+                ", currencyId=" + currencyId +
                 '}';
     }
 }

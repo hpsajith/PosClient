@@ -3,11 +3,13 @@ package com.ites.pos.Models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by wannix on 12/19/16.
  */
 
-public class Item {
+public class Item implements Serializable {
     private String itemName;
     private int qty;
     private Double itemPrice;
@@ -18,6 +20,22 @@ public class Item {
     private int currencyId = 0;
 
     public Item() {
+    }
+
+    public Item(JSONObject jObj) {
+        try {
+            this.itemName = jObj.getString("itemName");
+            this.itemPrice = jObj.getDouble("itemPrices");
+            this.taxPrice = jObj.getDouble("taxPrice");
+            this.comment = jObj.getString("itemComment");
+            this.qty = jObj.getInt("qty");
+            this.itemCode = jObj.getInt("itemCode");
+            this.taxClass = jObj.getInt("taxClass");
+            this.currencyId = jObj.getInt("currencyId");
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public String getItemName() {
@@ -88,12 +106,13 @@ public class Item {
     public JSONObject toJSONObject() {
 
         JSONObject obj = new JSONObject();
+
         try {
             obj.put("itemName", itemName);
             obj.put("qty", qty);
             obj.put("itemPrice", itemPrice);
             obj.put("taxPrice", taxPrice);
-            obj.put("comment", comment);
+            obj.put("itemComment", comment);
             obj.put("itemCode", itemCode);
             obj.put("taxClass", taxClass);
             obj.put("currencyId", currencyId);

@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">POS System 5.2</string>
+    <string name="app_name">POS Client 0.2.5</string>
 
     <!--Splash Screen Start-->
     <string name="license_txt_line1">This Product is Licensed to <b>ITESS</b>.</string>
     <string name="license_txt_line2">ITES Software (Pvt) Ltd.</string>
-    <string name="license_txt_line3">POS Client</string>
-    <string name="license_txt_line4">POS System Client Application 1.0.0</string>
+    <string name="license_txt_line3">POS System 5.2</string>
+    <string name="license_txt_line4">POS Client Application 0.2.5</string>
     <string name="license_txt_line5">Copyright © 2016 ITES Software (Pvt) Ltd, All rights reserved.</string>
-    <string name="license_txt_line6">Telephone: <i>0094-0115361111, </i> Email: <i>lkabites@sltnet.lk</i></string>
+    <string name="license_txt_line6">Telephone: <i>+94 11 536 1111, </i> Email: <i>lkabites@sltnet.lk</i></string>
     <string name="license_txt_line7">Warning!</string>
     <string name="license_txt_line8">This computer program is protected by copyright law and international treaties.
             Unauthorized reproduction or distribution of this program, or any portion of it,

@@ -1,8 +1,12 @@
 package com.ites.pos.Activities.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +14,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,10 +34,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.ites.pos.Activities.ItemPunching;
 import com.ites.pos.Adapters.BillAdapter;
 import com.ites.pos.Interfaces.GuestFragmentType;
+import com.ites.pos.Interfaces.SAMs.CloseGuestBill;
 import com.ites.pos.Interfaces.SAMs.OpenTableDetails;
+import com.ites.pos.Interfaces.SAMs.PosGuestDetails;
+import com.ites.pos.Interfaces.SAMs.PrintGuestBill;
+import com.ites.pos.Interfaces.SAMs.RestaurantItems;
+import com.ites.pos.MainActivity;
+import com.ites.pos.Models.HouseAccount;
 import com.ites.pos.Models.OrderBillItem;
+import com.ites.pos.Models.ReservationRoom;
 import com.ites.pos.NetworkController;
 import com.ites.pos.main_activity.R;
 
@@ -48,7 +62,8 @@ import java.util.List;
  */
 
 public class RoomFragment extends Fragment {
-    private int BILL_MAX_HEIGHT = 310;
+    private static final String SNACK_ACTION_COLOR = "#387ef4";
+    private int BILL_MAX_HEIGHT = 210;
     private JSONArray tableConfigs;
     private PopupWindow orderInfo;
     private ImageButton closeBtn, closeBtn_selectGuest;
@@ -58,12 +73,14 @@ public class RoomFragment extends Fragment {
     private Button newBtn, editBtn, guestBtn, tableCloseBtn;
     private int tableStatus;
     private LinearLayout comp1, comp2, comp3, kotTotalPanel;
-    private TextView emptyTableLabel;
     private ProgressBar loadingKotProgressBar;
     private TabLayout selectGuestTabLayout;
     private ViewPager selectGuestViewPager;
     private String houseAccList, reservationRoomList;
     private SelectGuestFragment inHouse, manager;
+    private int restId, userId, userType,mealNo;
+    private String userName;
+    private String kotNo;
 
     private String[] tableSignatures = new String[3];
 
@@ -86,6 +103,12 @@ public class RoomFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
+
+        SharedPreferences session = getContext().getSharedPreferences("session", 0);
+        userId = Integer.parseInt(session.getString("userId", "0"));
+        userName = session.getString("username", "user");
+        userType = session.getInt("userType", 0);
+        mealNo = Integer.parseInt(session.getString("mealPeriodId", "0"));
 
         if (getResources().getConfiguration().smallestScreenWidthDp < 420) {
             BILL_MAX_HEIGHT = 270;
@@ -124,11 +147,12 @@ public class RoomFragment extends Fragment {
                     tableSignatures[1] = tableId = tmp.getString("table_Id");
                     tableSignatures[2] = tableH = tmp.getString("tableName");
                     tableStatus = tmp.getInt("tableStatus");
+                    restId = tmp.getInt("restrauntId");
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }
 
-                if (tableStatus == 1) {
+                if (tableStatus > 0) {
 
                     View orderInfoDisplay = inflater.inflate(R.layout.order_info, parent, false);
 
@@ -150,7 +174,6 @@ public class RoomFragment extends Fragment {
                     comp2 = (LinearLayout) orderInfoDisplay.findViewById(R.id.comp2);
                     comp3 = (LinearLayout) orderInfoDisplay.findViewById(R.id.comp3);
                     kotTotalPanel = (LinearLayout) orderInfoDisplay.findViewById(R.id.kotTotalPanel);
-                    emptyTableLabel = (TextView) orderInfoDisplay.findViewById(R.id.emptyTableLabel);
                     loadingKotProgressBar = (ProgressBar) orderInfoDisplay.findViewById(R.id.loadingKotProgressBar);
 
                     RecyclerView.LayoutManager mgr = new LinearLayoutManager(getContext());
@@ -159,135 +182,8 @@ public class RoomFragment extends Fragment {
                     // set the table name UI
                     tableHeader.setText(tableH);
 
-                    // set the common values in the UI
-                    final String finalTableH = tableH;
-                    NetworkController netCtrl = new NetworkController(getContext());
-
-                    netCtrl.getOpenTableDetails(tableId, new OpenTableDetails() {
-                        @Override
-                        public void gotOpenTableDetails(String data) {
-                            // hide progress bar
-                            loadingKotProgressBar.setVisibility(ProgressBar.INVISIBLE);
-
-                            // show relavant UI components
-                            if (tableStatus == 1) {
-                                loadingKotProgressBar.setVisibility(ProgressBar.GONE);
-                                comp1.setVisibility(LinearLayout.VISIBLE);
-                                comp2.setVisibility(LinearLayout.VISIBLE);
-                                comp3.setVisibility(LinearLayout.VISIBLE);
-                                emptyTableLabel.setVisibility(TextView.GONE);
-                                billItems.setVisibility(RecyclerView.VISIBLE);
-                                kotTotalPanel.setVisibility(LinearLayout.VISIBLE);
-                            }
-
-                            final List<OrderBillItem> billItemsListAll = new ArrayList<>();
-                            final List<OrderBillItem> billItemsList = new ArrayList<>();
-                            final List<String> KOTNums = new ArrayList<>();
-
-                            try {
-                                JSONArray oderBillItems = new JSONArray(data);
-
-                                for (int i = 0; i < oderBillItems.length(); i++) {
-                                    JSONObject tmp = oderBillItems.getJSONObject(i);
-                                    tmp.put("tableName", finalTableH);
-
-                                    OrderBillItem billItem = new OrderBillItem(tmp);
-
-                                    billItemsListAll.add(billItem);
-                                }
-
-                                // split the billItemsList
-                                for (int i = 0; i < billItemsListAll.size(); i++) {
-                                    if (!KOTNums.contains(billItemsListAll.get(i).getKotNo())) {
-                                        KOTNums.add(billItemsListAll.get(i).getKotNo());
-                                    }
-                                }
-
-                                // set KOT No spinner
-                                ArrayAdapter<String> kotAdapter = new ArrayAdapter<>(getContext(), R.layout.kot_spinner_item, KOTNums);
-                                kotNoD.setAdapter(kotAdapter);
-
-                                // spinner item selected listener
-                                kotNoD.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
-                                        billItemsList.clear();
-                                        String KotNo = KOTNums.get(position);
-
-                                        for (int i = 0; i < billItemsListAll.size(); i++) {
-
-                                            if (billItemsListAll.get(i).getKotNo().equals(KotNo)) {
-                                                billItemsList.add(billItemsListAll.get(i));
-                                            }
-                                        }
-
-                                        guestNoD.setText(billItemsList.get(0).getGuestNo());
-                                        roomNoD.setText(billItemsList.get(0).getRoomNo());
-                                        timeStampD.setText(billItemsList.get(0).getSystemDate());
-                                        usernameD.setText(billItemsList.get(0).getUserName());
-
-                                        RecyclerView.Adapter adapter = new BillAdapter(billItemsList);
-
-                                        // set bill max height
-                                        ViewGroup.LayoutParams params = billItems.getLayoutParams();
-                                        if (billItemsList.size() > 7) {
-                                            params.height = BILL_MAX_HEIGHT;
-                                        } else {
-                                            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                                        }
-
-                                        // binding data to recycle view
-                                        billItems.setLayoutParams(params);
-                                        billItems.setAdapter(adapter);
-
-                                        kotTotalD.setText(Float.toString(calculateKotTotal(billItemsList)));
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-                                        // skip
-                                    }
-                                });
-
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
-                            }
-
-                            // button action listeners
-                            newBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // dismiss oderinfo popup
-                                    orderInfo.dismiss();
-                                    newKot(rootView, inflater, finalTableH);
-                                }
-                            });
-
-                            editBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // go to edit bill activity
-                                    Toast.makeText(getContext(), "Edit Order", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                            guestBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // generate guest bill
-                                    Toast.makeText(getContext(), "Guest Bill", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                            tableCloseBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // close table
-                                    Toast.makeText(getContext(), "Close Table", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    });
+                    // feed data from service
+                    makeNetworkCall(tableId, tableH, rootView, inflater, position);
 
                     orderInfo = new PopupWindow(orderInfoDisplay, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -315,7 +211,283 @@ public class RoomFragment extends Fragment {
         return rootView;
     }
 
-    private void newKot(View rootView, LayoutInflater inflater, String TableH) {
+    private void makeNetworkCall(final String tableId, final String tableH, final View rootView, final LayoutInflater inflater, final int position) {
+        final NetworkController netCtrl = new NetworkController(getContext());
+
+        netCtrl.getOpenTableDetails(tableId, new OpenTableDetails() {
+            @Override
+            public void gotOpenTableDetails(String data) {
+                // hide progress bar
+                loadingKotProgressBar.setVisibility(ProgressBar.INVISIBLE);
+
+                // show relavant UI components
+                if (tableStatus > 0) {
+                    loadingKotProgressBar.setVisibility(ProgressBar.GONE);
+                    comp1.setVisibility(LinearLayout.VISIBLE);
+                    comp2.setVisibility(LinearLayout.VISIBLE);
+                    comp3.setVisibility(LinearLayout.VISIBLE);
+                    billItems.setVisibility(RecyclerView.VISIBLE);
+                    kotTotalPanel.setVisibility(LinearLayout.VISIBLE);
+                }
+
+                final List<OrderBillItem> billItemsListAll = new ArrayList<>();
+                final List<OrderBillItem> billItemsList = new ArrayList<>();
+                final List<String> KOTNums = new ArrayList<>();
+
+                try {
+                    JSONArray oderBillItems = new JSONArray(data);
+
+                    for (int i = 0; i < oderBillItems.length(); i++) {
+                        JSONObject tmp = oderBillItems.getJSONObject(i);
+                        tmp.put("tableName", tableH);
+
+                        OrderBillItem billItem = new OrderBillItem(tmp);
+
+                        billItemsListAll.add(billItem);
+                    }
+
+                    // split the billItemsList
+                    for (int i = 0; i < billItemsListAll.size(); i++) {
+                        if (!KOTNums.contains(billItemsListAll.get(i).getKotNo())) {
+                            KOTNums.add(billItemsListAll.get(i).getKotNo());
+                        }
+                    }
+
+                    // set KOT No spinner
+                    ArrayAdapter<String> kotAdapter = new ArrayAdapter<>(getContext(), R.layout.kot_spinner_item, KOTNums);
+                    kotNoD.setAdapter(kotAdapter);
+
+                    // spinner item selected listener
+                    kotNoD.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
+                            billItemsList.clear();
+                            kotNo = KOTNums.get(position);
+
+                            for (int i = 0; i < billItemsListAll.size(); i++) {
+
+                                if (billItemsListAll.get(i).getKotNo().equals(kotNo)) {
+                                    billItemsList.add(billItemsListAll.get(i));
+                                }
+                            }
+
+                            guestNoD.setText(billItemsList.get(0).getGuestNo());
+                            roomNoD.setText(billItemsList.get(0).getRoomNo());
+                            timeStampD.setText(billItemsList.get(0).getSystemDate());
+                            usernameD.setText(billItemsList.get(0).getUserName());
+
+                            RecyclerView.Adapter adapter = new BillAdapter(billItemsList);
+
+                            // set bill max height
+                            ViewGroup.LayoutParams params = billItems.getLayoutParams();
+                            if (billItemsList.size() > 5) {
+                                params.height = BILL_MAX_HEIGHT;
+                            } else {
+                                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            }
+
+                            // binding data to recycle view
+                            billItems.setLayoutParams(params);
+                            billItems.setAdapter(adapter);
+
+                            kotTotalD.setText(Float.toString(calculateKotTotal(billItemsList)));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // skip
+                        }
+                    });
+
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+                // button action listeners
+                newBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // dismiss oderinfo popup
+                        orderInfo.dismiss();
+                        // add new KOT
+                        newKot(rootView, inflater, tableH);
+                    }
+                });
+
+                editBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // edit KOT
+                        if (billItemsList.size() != 0) {
+                            editKot(billItemsList);
+                        } else {
+                            Toast.makeText(getContext(), "There is nothing to edit!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                guestBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // generate guest bill
+                        if (billItemsList.size() != 0) {
+                            netCtrl.printGuestBill(Integer.valueOf(kotNo), userId, restId, userName, new PrintGuestBill() {
+                                @Override
+                                public void gotPrintGuestBill(String data) {
+                                    try {
+                                        JSONObject resp = new JSONObject(data);
+                                        if (resp.getString("msg").equals("done")) {
+                                            Toast.makeText(getContext(), "Guest Bill Generated", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Bill didn't Generated, Error occurred in server!", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void errorPrintGuestBill(VolleyError error) {
+                                    Toast.makeText(getContext(), "Error Occurred! Try again.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "There is nothing to print!", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+
+                tableCloseBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // close table
+                        if (kotNo != null) {
+                            NetworkController netCtrl = new NetworkController(getContext());
+                            netCtrl.closeGuestBill(kotNo, new CloseGuestBill() {
+                                @Override
+                                public void gotCloseGuestBill(String data) {
+                                    // close kot and refresh table area
+                                    orderInfo.dismiss();
+                                    Intent recycle = getActivity().getIntent();
+                                    getActivity().finish();
+                                    startActivity(recycle);
+                                }
+
+                                @Override
+                                public void errorCloseGuestBill(VolleyError error) {
+                                    Toast.makeText(getContext(), "Something has gone wrong, try again!", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "There is nothing to close!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void errorOpenTableDetails(VolleyError error) {
+                Snackbar.make(rootView, "Error Occurred! Check the Network Connectivity.", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // retry making network call
+                        makeNetworkCall(tableId, tableH, rootView, inflater, position);
+                    }
+                }).setActionTextColor(Color.parseColor(SNACK_ACTION_COLOR)).show();
+            }
+        });
+    }
+
+    private void editKot(List<OrderBillItem> billItemsList) {
+        final JSONArray arry = new JSONArray();
+        for (OrderBillItem item : billItemsList) {
+            arry.put(item.toJSONObject());
+        }
+
+        final NetworkController netCtrl = new NetworkController(getContext());
+        netCtrl.getPosGuestDetails(Integer.parseInt(billItemsList.get(0).getGuestNo()), new PosGuestDetails() {
+            @Override
+            public void gotPosGuestDetails(String data) {
+                try {
+                    final JSONObject guestDetails = new JSONObject(data);
+
+                    if (guestDetails.getInt("waiterNo") == userId || userType == 1) {
+                        netCtrl.getRestaurantItems(restId, new RestaurantItems() {
+                            @Override
+                            public void gotRestaurantItems(String data) {
+                                JSONObject genericObj = new JSONObject();
+
+                                // set guestType
+                                int guestType = GuestFragmentType.WALK_IN;
+
+                                try {
+                                    if (((!guestDetails.get("houseNo").equals(null)) ? guestDetails.getInt("houseNo") : 0) != 0) {
+                                        guestType = GuestFragmentType.MANAGER_LIST;
+                                    } else if (((!guestDetails.get("walkingGuest").equals(null)) ? guestDetails.getInt("walkingGuest") : 0) != 1) {
+                                        guestType = GuestFragmentType.ROOM_LIST;
+                                    }
+
+                                    genericObj.put("currentUserId", userType);
+                                    genericObj.put("guestType", guestType);
+                                    genericObj.put("restaurantId", restId);
+                                    genericObj.put("waiterId", userId);
+                                    genericObj.put("waiterName", userName);
+                                    //genericObj.put("mealId", mealNo);
+                                    genericObj.put("mealId", (!guestDetails.get("mealNo").equals(null)) ? guestDetails.getInt("mealNo") :0);
+                                    genericObj.put("roomId", (!guestDetails.get("roomNo").equals(null) && !guestDetails.getString("roomNo").equals("")) ? guestDetails.getString("roomNo") : "0");
+                                    genericObj.put("tableId", (!guestDetails.get("tableNo").equals(null)) ? guestDetails.getInt("tableNo") : 0);
+                                    genericObj.put("tableName", tableSignatures[2]);
+                                    genericObj.put("guestFname", (!guestDetails.get("firstName").equals(null)) ? guestDetails.getString("firstName") : "");
+                                    genericObj.put("guestLname", (!guestDetails.get("lastName").equals(null)) ? guestDetails.getString("lastName") : "");
+                                    genericObj.put("adultsCount", (!guestDetails.get("adult").equals(null)) ? guestDetails.getInt("adult") : 0);
+                                    genericObj.put("kidsCount", (!guestDetails.get("children").equals(null)) ? guestDetails.getInt("children") : 0);
+                                    genericObj.put("confNo", (!guestDetails.get("confNo").equals(null)) ? guestDetails.getInt("confNo") : 0);
+                                    genericObj.put("reservRoomNo", "0");
+                                    genericObj.put("foodPackage", (!guestDetails.get("package1").equals(null)) ? guestDetails.getString("package1") : 0);
+                                    genericObj.put("hAccountId", (!guestDetails.get("houseNo").equals(null)) ? guestDetails.getInt("houseNo") : 0);
+                                    genericObj.put("hAccountName", "");
+
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                // re-direct to item punching activity
+                                Intent nxt = new Intent(getContext(), ItemPunching.class);
+                                nxt.putExtra("restaurantItems", data);
+                                nxt.putExtra("genericObj", genericObj.toString());
+                                nxt.putExtra("billItemsList", arry + "");
+                                startActivity(nxt);
+
+                                // dismiss oderinfo popup
+                                orderInfo.dismiss();
+
+                                getActivity().finish();
+                            }
+
+                            @Override
+                            public void errorRestaurantItems(VolleyError error) {
+
+                            }
+                        });
+                    } else {
+                        // notify user that u cannot edit this KOT
+                        Toast.makeText(getContext(), "You don't have permission to edit this KOT!", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void errorPosGuestDetails(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void newKot(View rootView, LayoutInflater inflater, String tableH) {
         // disable tabs
         final LinearLayout tabPart = (LinearLayout) ((TabLayout) rootView.getRootView().findViewById(R.id.tabs)).getChildAt(0);
         for (int i = 0; i < tabPart.getChildCount(); i++) {
@@ -340,7 +512,7 @@ public class RoomFragment extends Fragment {
         selectGuestTabLayout = (TabLayout) selectGuestDisplay.findViewById(R.id.selectGuestTabs);
         selectGuestViewPager = (ViewPager) selectGuestDisplay.findViewById(R.id.selectGuestViewpager);
 
-        tableName.setText(TableH);
+        tableName.setText(tableH);
 
         // bind tablayout and viewpager
         setupViewPager(selectGuestViewPager);
@@ -364,7 +536,7 @@ public class RoomFragment extends Fragment {
         float total = 0;
 
         for (int i = 0; i < list.size(); i++) {
-            total += Float.valueOf(list.get(i).getUnitPrice());
+            total += Float.valueOf(list.get(i).getTaxPrice());
         }
 
         return (float) (Math.round(total * 100) / 100.00);

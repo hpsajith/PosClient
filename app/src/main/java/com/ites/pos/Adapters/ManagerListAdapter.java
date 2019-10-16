@@ -74,6 +74,7 @@ public class ManagerListAdapter extends RecyclerView.Adapter<ManagerListAdapter.
         }
 
         public void bind(final HouseAccount item) {
+            itemView.setBackgroundColor(Color.parseColor("#00ffffff")); // avoid multiple selections in scroll
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     v.setBackgroundColor(Color.parseColor("#55387ef4"));

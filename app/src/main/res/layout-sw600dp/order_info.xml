@@ -25,13 +25,13 @@
                 android:id="@+id/tableHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="24sp"
                 android:textStyle="normal|bold"
-                android:layout_marginBottom="15dp" />
+                android:layout_marginBottom="10dp" />
 
             <ImageButton
                 android:id="@+id/closeBtn"
@@ -44,15 +44,15 @@
                 android:contentDescription="@string/close_button_des"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="false"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -190,8 +190,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:orientation="horizontal"
-                android:padding="5dp"
-                android:visibility="visible">
+                android:visibility="visible"
+                android:paddingLeft="5dp">
 
                 <TextView
                     android:id="@+id/kotNoLabel"
@@ -212,18 +212,9 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_width="580dp">
-
-                <TextView
-                    android:text="No KOTs to show."
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/emptyTableLabel"
-                    android:gravity="center"
-                    android:textSize="36sp"
-                    android:visibility="gone" />
+                android:layout_width="580dp"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -261,20 +252,14 @@
                         android:paddingRight="5dp" />
                 </LinearLayout>
 
-                <ProgressBar
-                    style="@style/Widget.AppCompat.ProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/loadingKotProgressBar" />
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/billItems"
                     android:scrollbars="vertical"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="580dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:layout_height="32dp" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -314,13 +299,13 @@
             <LinearLayout
                 android:id="@+id/comp7"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="9"
                 android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:layout_height="65dp">
 
                 <Button
                     android:id="@+id/newBtn"
@@ -367,4 +352,11 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadingKotProgressBar"
+        android:layout_gravity="center" />
 </FrameLayout>

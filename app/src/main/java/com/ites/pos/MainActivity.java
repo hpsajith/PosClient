@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,8 +17,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -24,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.ites.pos.Activities.PosSplash;
 import com.ites.pos.Activities.fragments.RoomFragment;
 import com.ites.pos.Interfaces.SAMs.HouseAccList;
@@ -36,6 +42,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +52,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String SNACK_ACTION_COLOR = "#387ef4";
     private ProgressBar loading;
-    private String restID, houseAccList, reservRoomList;
+    private String userId,restID, houseAccList, reservRoomList;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences session = getApplicationContext().getSharedPreferences("session", 0);
 
         restID = session.getString("restaurantId", "0");
+        userId= session.getString("userId", "0");
         loading = (ProgressBar) findViewById(R.id.tableLoadingProgress);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(session.getString("restaurantName", "Restaurant Name"));
@@ -69,9 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set nav_header params
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
-        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
         TextView name = (TextView) header.findViewById(R.id.name);
         TextView email = (TextView) header.findViewById(R.id.email);
         Button logout = (Button) header.findViewById(R.id.logout);
@@ -98,9 +107,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        // setup view pager, making network calls
+        makeNetworkCalls(viewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -141,17 +151,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupViewPager(final ViewPager viewPager) {
+    private void makeNetworkCalls(final ViewPager viewPager) {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
         final NetworkController netCtrl = new NetworkController(getApplicationContext());
-
         final List<TableConfig> configs = new ArrayList<>();
 
         netCtrl.getHouseAccListList(new HouseAccList() {
             @Override
             public void gotHouseAccList(String data) {
                 houseAccList = data;
+            }
+
+            @Override
+            public void errorHouseAccList(VolleyError error) {
+                makeNetworkCalls(viewPager);
             }
         });
 
@@ -160,9 +173,14 @@ public class MainActivity extends AppCompatActivity {
             public void gotReservationRoomList(String data) {
                 reservRoomList = data;
             }
+
+            @Override
+            public void errorReservationRoomList(VolleyError error) {
+                makeNetworkCalls(viewPager);
+            }
         });
 
-        netCtrl.getAllTableConfigs(restID, new TableConfigs() {
+        netCtrl.getAllTableConfigs(restID,userId, new TableConfigs() {
             @Override
             public void gotTableConfigs(String responseStr) {
                 // set progressbar invisible
@@ -214,6 +232,17 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(adapter);
 
                 netCtrl.clearRequestQueue();
+            }
+
+            @Override
+            public void errorTableConfigs(VolleyError error) {
+                Snackbar.make(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), "Error Occurred!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // retry making network calls
+                        makeNetworkCalls(viewPager);
+                    }
+                }).setActionTextColor(Color.parseColor(SNACK_ACTION_COLOR)).show();
             }
         });
     }

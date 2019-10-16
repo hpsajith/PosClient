@@ -2,6 +2,7 @@ package com.ites.pos.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,16 @@ import java.util.List;
  */
 
 public class ListItemAdapter extends ArrayAdapter<String> {
-    private static final String[] COLORS = new String[]{"#1099F5", "#BA5CD1", "#FD4B42", "#FFA204", "#FED204", "#40BE1F"};
+    private static final String[] COLORS = new String[]{"#1099F5", "#BA5CD1", "#FD4B42", "#DE5D83", "#FED204", "#40BE1F","#FF9966", "#89CFF0", "#F4C2C2", "#BD33A4", "#FED204", "#FFA204"};
     private int adapterType;
     private List<String> items = new ArrayList<>();
+    private int bgColor;
 
-    public ListItemAdapter(Context context, int resource, int type, List<String> items) {
+    public ListItemAdapter(Context context, int resource, int type, List<String> items, int bgColor) {
         super(context, resource, items);
         this.adapterType = type;
         this.items = items;
+        this.bgColor = bgColor;
     }
 
     @Override
@@ -36,6 +39,11 @@ public class ListItemAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = super.getView(position, convertView, parent);
+
+        if(bgColor != 0){
+            v.setBackgroundColor(bgColor);
+        }
+
         if (adapterType == ListItemType.FAMILY) {
             v.setBackgroundColor(Color.parseColor(COLORS[position]));
         }

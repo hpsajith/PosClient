@@ -1,48 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
-<android.support.design.widget.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:background="?attr/colorPrimary"
-        android:elevation="5dp"
-        android:minHeight="0dp"
-        app:collapseIcon="?attr/dividerVertical"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Restaurant Name"
-        app:titleTextAppearance="@style/toolbarTitleTextCustomSW800dp"
-        android:layout_height="40dp" />
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/background_image"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/splash_bg" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foregroundTint="@color/colorAccent"
-        app:tabGravity="fill"
-        app:tabMode="scrollable"
-        app:tabTextAppearance="@style/tabLayoutTextCustomSW800dp" />
-</android.support.design.widget.AppBarLayout>
+        android:layout_height="match_parent"
+        android:background="#9fffffff"
+        android:gravity="center"
+        android:orientation="vertical">
 
-<com.ites.pos.CustomComponents.NonSwipeableViewPager
-    android:id="@+id/viewpager"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?attr/colorPrimary"
+                android:elevation="5dp"
+                android:minHeight="0dp"
+                app:collapseIcon="?attr/dividerVertical"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="Restaurant Name"
+                app:titleTextAppearance="@style/toolbarTitleTextCustomSW800dp" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundTint="@color/colorAccent"
+                app:tabGravity="fill"
+                app:tabMode="scrollable"
+                app:tabTextAppearance="@style/tabLayoutTextCustomSW800dp" />
+        </android.support.design.widget.AppBarLayout>
+
+        <com.ites.pos.CustomComponents.NonSwipeableViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/tableLoadingProgress"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="visible" />
 </android.support.design.widget.CoordinatorLayout>

@@ -11,6 +11,11 @@ public class OrderDetails {
     private int kotNo;
     private int adultCount;
     private int kidsCount;
+    private int roomNo;
+    private int restId;
+    private int waiterId;
+    private int guestNo;
+    private int guestType;
     private String tableName;
     private String waiterName;
     private String guestFName;
@@ -90,6 +95,46 @@ public class OrderDetails {
         this.date = date;
     }
 
+    public int getRoomNo() {
+        return roomNo;
+    }
+
+    public void setRoomNo(int roomNo) {
+        this.roomNo = roomNo;
+    }
+
+    public int getGuestType() {
+        return guestType;
+    }
+
+    public void setGuestType(int guestType) {
+        this.guestType = guestType;
+    }
+
+    public int getRestId() {
+        return restId;
+    }
+
+    public void setRestId(int restId) {
+        this.restId = restId;
+    }
+
+    public int getWaiterId() {
+        return waiterId;
+    }
+
+    public void setWaiterId(int waiterId) {
+        this.waiterId = waiterId;
+    }
+
+    public int getGuestNo() {
+        return guestNo;
+    }
+
+    public void setGuestNo(int guestNo) {
+        this.guestNo = guestNo;
+    }
+
     // convert java bean to JSON object
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
@@ -103,6 +148,11 @@ public class OrderDetails {
             obj.put("guestLName", guestLName);
             obj.put("remark", remark);
             obj.put("date", date);
+            obj.put("roomNo", roomNo);
+            obj.put("guestType", guestType);
+            obj.put("restId", restId);
+            obj.put("waiterId", waiterId);
+            obj.put("guestNo", guestNo);
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -115,6 +165,11 @@ public class OrderDetails {
                 "kotNo=" + kotNo +
                 ", adultCount=" + adultCount +
                 ", kidsCount=" + kidsCount +
+                ", roomNo=" + roomNo +
+                ", restId=" + restId +
+                ", waiterId=" + waiterId +
+                ", guestNo=" + guestNo +
+                ", guestType=" + guestType +
                 ", tableName='" + tableName + '\'' +
                 ", waiterName='" + waiterName + '\'' +
                 ", guestFName='" + guestFName + '\'' +

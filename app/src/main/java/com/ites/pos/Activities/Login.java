@@ -6,12 +6,19 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.ites.pos.Models.User;
 import com.ites.pos.NetworkController;
 import com.ites.pos.main_activity.R;
@@ -31,13 +39,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Formatter;
 
 /**
  * Created by wannix on 10/12/2016.
  */
 
 public class Login extends AppCompatActivity {
-
+    private static final String SNACK_ACTION_COLOR = "#387ef4";
     ArrayList<String> userList = new ArrayList<>();
     ArrayList<User> allUserList = new ArrayList<>();
 
@@ -49,6 +58,7 @@ public class Login extends AppCompatActivity {
 
     // authenticate
     private String username, userId;
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +80,27 @@ public class Login extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (NullPointerException ex) {
-            Toast.makeText(this, "Connection is not available! Check your connection and try again!", Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
         }
 
         uname = (Spinner) findViewById(R.id.uname);
         passwd = (EditText) findViewById(R.id.passwd);
         lgn_btn = (Button) findViewById(R.id.login_btn);
         login_progress = findViewById(R.id.progressBar);
+
+        /*WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+
+        Log.d("your IP : ", android.text.format.Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
+        Log.d("Mac Add : ", wifiManager.getConnectionInfo().getMacAddress());*/
+
+        passwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    attemptLogin();
+                }
+                return false;
+            }
+        });
 
         lgn_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +218,12 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            makeNetworkCall();
+
+            return true;
+        }
+
+        private void makeNetworkCall() {
             NetworkController ntCtrl = new NetworkController(getApplicationContext());
             ntCtrl.authenticateUser(username, password, new com.ites.pos.Interfaces.SAMs.UserAuth() {
                 @Override
@@ -206,12 +236,20 @@ public class Login extends AppCompatActivity {
                             // make the JSONException throws
                             responseArray.getJSONObject(0);
                         } else {
+                            for(User u: allUserList){
+                                if(userId.equals(u.getUserId())){
+                                    userType = u.getUserType();
+                                    break;
+                                }
+                            }
+
                             // valid activity_login re direct to select restaurant
                             showProgress(false);
                             Intent i = new Intent(Login.this, LoginSuccess.class);
                             i.putExtra("username", username);
                             i.putExtra("userId", userId);
                             i.putExtra("validatedResponse", data);
+                            i.putExtra("userType", userType);
                             startActivity(i);
                             finish();
                         }
@@ -221,9 +259,18 @@ public class Login extends AppCompatActivity {
                         showProgress(false);
                     }
                 }
-            });
 
-            return true;
+                @Override
+                public void errorUserAuth(VolleyError error) {
+                    Snackbar.make(((ViewGroup)findViewById(android.R.id.content)).getChildAt(0),"Error Occurred!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // retry making network call
+                            makeNetworkCall();
+                        }
+                    }).setActionTextColor(Color.parseColor(SNACK_ACTION_COLOR)).show();
+                }
+            });
         }
     }
 }

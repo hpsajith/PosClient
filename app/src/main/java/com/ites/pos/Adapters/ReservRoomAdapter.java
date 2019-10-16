@@ -79,6 +79,7 @@ public class ReservRoomAdapter extends RecyclerView.Adapter<ReservRoomAdapter.Re
         }
 
         public void bind(final ReservationRoom item) {
+            itemView.setBackgroundColor(Color.parseColor("#00ffffff")); // avoid multiple selections in scroll
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

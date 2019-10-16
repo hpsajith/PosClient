@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.ites.pos.Activities.ItemPunching;
 import com.ites.pos.Adapters.ManagerListAdapter;
 import com.ites.pos.Adapters.ReservRoomAdapter;
 import com.ites.pos.Interfaces.GuestFragmentType;
 import com.ites.pos.Interfaces.SAMs.RestaurantItems;
 import com.ites.pos.Models.HouseAccount;
+import com.ites.pos.Models.Item;
 import com.ites.pos.Models.ReservationRoom;
 import com.ites.pos.NetworkController;
 import com.ites.pos.main_activity.R;
@@ -41,7 +42,7 @@ import java.util.List;
  */
 
 public class SelectGuestFragment extends Fragment {
-    private static final String SNACK_TEXT_COLOR = "#387ef4";
+    private static final String SNACK_ACTION_COLOR = "#387ef4";
 
     private int fragmentType;
     private String restaurantId, waiterId, waiterName, mealId, restRoomId, tableId, tableName;
@@ -67,7 +68,7 @@ public class SelectGuestFragment extends Fragment {
         SharedPreferences session = getContext().getSharedPreferences("session", 0);
         waiterId = session.getString("userId", "0");
         waiterName = session.getString("username", "Unknown");
-        mealId = session.getString("mealId", "0");
+        mealId = session.getString("mealPeriodId", "0");
         restaurantId = session.getString("restaurantId", "0");
 
         final View fragmentView = inflater.inflate(R.layout.fragment_select_guest, container, false);
@@ -83,24 +84,13 @@ public class SelectGuestFragment extends Fragment {
         cntBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cntBtn.setEnabled(false);
                 if (fragmentType == GuestFragmentType.WALK_IN) {
                     // make sure that button action is synchronized
-                    cntBtn.setEnabled(false);
                     cntBtn.setBackgroundColor(Color.GRAY);
 
-                    // network call
-                    netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new RestaurantItems() {
-                        @Override
-                        public void gotRestaurantItems(String data) {
-                            // redirect to itemPunching
-                            Intent nxt = new Intent(getContext(), ItemPunching.class);
-                            String genericObj = getGenericObject(getSelectedItem()) + "";
-                            nxt.putExtra("genericObj", genericObj);
-                            nxt.putExtra("restaurantItems", data);
-                            startActivity(nxt);
-                            getActivity().finish();
-                        }
-                    });
+                    // push guest details to the service
+                    makeNetworkCall(netCtrl, v);
 
                     // notification
                     Snackbar snackbar = Snackbar.make(fragmentView, "Guest Details sent!", Snackbar.LENGTH_SHORT);
@@ -177,25 +167,45 @@ public class SelectGuestFragment extends Fragment {
         return fragmentView;
     }
 
+    private void makeNetworkCall(final NetworkController netCtrl, final View v) {
+
+        netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new RestaurantItems() {
+            boolean valFlag = false;
+            @Override
+            public void gotRestaurantItems(String data) {
+                // redirect to itemPunching
+                valFlag = true;
+                Intent nxt = new Intent(getContext(), ItemPunching.class);
+                String genericObj = getGenericObject(getSelectedItem()) + "";
+                nxt.putExtra("genericObj", genericObj);
+                nxt.putExtra("restaurantItems", data);
+                startActivity(nxt);
+                getActivity().finish();
+            }
+
+            @Override
+            public void errorRestaurantItems(VolleyError error) {
+                if (!valFlag) {
+                    Snackbar.make(v, "Error Occurred! Check the Network Connectivity.", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // retry making network call
+                            makeNetworkCall(netCtrl, v);// removed to check double insertion
+                        }
+                    }).setActionTextColor(Color.parseColor(SNACK_ACTION_COLOR)).show();
+                }
+            }
+        });
+    }
+
     private void proceedButtonClick(NetworkController netCtrl, View fragmentView, String msg) {
         if (getSelectedItem() != null) {
             // make sure that button action is synchronized
             cntBtn.setEnabled(false);
             cntBtn.setBackgroundColor(Color.GRAY);
 
-            // network call
-            netCtrl.sendGuestDetails(getGenericObject(getSelectedItem()), new RestaurantItems() {
-                @Override
-                public void gotRestaurantItems(String data) {
-                    // redirect to itemPunching
-                    Intent nxt = new Intent(getContext(), ItemPunching.class);
-                    String genericObj = getGenericObject(getSelectedItem()) + "";
-                    nxt.putExtra("genericObj", genericObj);
-                    nxt.putExtra("restaurantItems", data);
-                    startActivity(nxt);
-                    getActivity().finish();
-                }
-            });
+            // push guest details to the service
+            makeNetworkCall(netCtrl, fragmentView);
 
             // notification
             Snackbar snackbar = Snackbar.make(fragmentView, "Guest Details sent!", Snackbar.LENGTH_SHORT);

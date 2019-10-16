@@ -35,7 +35,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         holder.itemQtyD.setText(list.get(position).getQty().trim());
         holder.itemNameD.setText(list.get(position).getItemName().trim());
 
-        double unitPrice = Math.round(Double.valueOf(list.get(position).getUnitPrice())*100)/100.00;
+        double unitPrice = Math.round(Double.valueOf(list.get(position).getTaxPrice())*100)/100.00;
         holder.itemCost.setText(unitPrice+"");
     }
 

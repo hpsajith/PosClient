@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -33,9 +34,9 @@
         <activity
             android:name="com.ites.pos.Activities.Login"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize"
             android:label="@string/app_name"
-            android:theme="@style/MaterialTheme" />
+            android:theme="@style/MaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <!-- Select restaurant and meal period -->
         <activity
@@ -47,16 +48,17 @@
         <activity
             android:name="com.ites.pos.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustPan"
             android:label="@string/app_name"
-            android:theme="@style/MaterialTheme" />
+            android:theme="@style/MaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- Create New bill -->
         <activity
             android:name="com.ites.pos.Activities.ItemPunching"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:theme="@style/MaterialTheme" />
+            android:screenOrientation="landscape"
+            android:theme="@style/MaterialTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
+
 </manifest>
